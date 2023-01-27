@@ -1,4 +1,4 @@
-package logger
+package loggersdk
 
 type Service interface {
 	SetName(name string)
