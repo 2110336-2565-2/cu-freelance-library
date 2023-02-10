@@ -79,7 +79,6 @@ func (s *Logger) Keyword(key string, val any) *Logger {
 func (s *Logger) Msg(msg string) {
 	defer s.Logger.Sync()
 
-	//keywordList := []interface{}{msg}
 	var keywordList []zap.Field
 	s.createKeywordList(&keywordList)
 
@@ -103,6 +102,9 @@ func (s *Logger) Msg(msg string) {
 	default:
 		return
 	}
+
+	s.keyword = map[string]any{}
+	s.err = nil
 }
 
 func (s *Logger) createKeywordList(keywords *[]zap.Field) {
