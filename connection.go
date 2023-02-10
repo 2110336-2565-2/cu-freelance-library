@@ -13,27 +13,17 @@ import (
 	"strconv"
 )
 
-type ElasticsearchConfig interface {
-	GetConfig() *elasticsearchConfig
-}
-
-type elasticsearchConfig struct {
+type ElasticsearchConfig struct {
 	Host     string `mapstructure:"host"`
 	Username string `mapstructure:"username"`
 	Password string `mapstructure:"password"`
 }
 
-func (c *elasticsearchConfig) GetConfig() any {
-	return c
-}
-
-func InitElasticDefaultClient(conf ElasticsearchConfig, isDebug bool) (*elasticsearch.Client, error) {
-	config := conf.GetConfig()
-
+func InitElasticDefaultClient(conf *ElasticsearchConfig, isDebug bool) (*elasticsearch.Client, error) {
 	esConf := elasticsearch.Config{
-		Addresses: []string{config.Host},
-		Username:  config.Username,
-		Password:  config.Password,
+		Addresses: []string{conf.Host},
+		Username:  conf.Username,
+		Password:  conf.Password,
 	}
 
 	if isDebug {
@@ -53,13 +43,11 @@ func InitElasticDefaultClient(conf ElasticsearchConfig, isDebug bool) (*elastics
 	return client, nil
 }
 
-func InitElasticTypedClient(conf ElasticsearchConfig, isDebug bool) (*elasticsearch.TypedClient, error) {
-	config := conf.GetConfig()
-
+func InitElasticTypedClient(conf *ElasticsearchConfig, isDebug bool) (*elasticsearch.TypedClient, error) {
 	esConf := elasticsearch.Config{
-		Addresses: []string{config.Host},
-		Username:  config.Username,
-		Password:  config.Password,
+		Addresses: []string{conf.Host},
+		Username:  conf.Username,
+		Password:  conf.Password,
 	}
 
 	if isDebug {
@@ -73,32 +61,18 @@ func InitElasticTypedClient(conf ElasticsearchConfig, isDebug bool) (*elasticsea
 	return elasticsearch.NewTypedClient(esConf)
 }
 
-type RabbitMQConfig interface {
-	GetConfig() *rabbitMQConfig
-}
-
-type rabbitMQConfig struct {
+type RabbitMQConfig struct {
 	Host  string `mapstructure:"host"`
 	VHost string `mapstructure:"vhost"`
 }
 
-func (c *rabbitMQConfig) GetConfig() any {
-	return c
-}
-
-func InitRabbitMQConnection(conf RabbitMQConfig) (*amqp.Connection, error) {
-	config := conf.GetConfig()
-
-	return amqp.DialConfig(config.Host, amqp.Config{
-		Vhost: config.VHost,
+func InitRabbitMQConnection(conf *RabbitMQConfig) (*amqp.Connection, error) {
+	return amqp.DialConfig(conf.Host, amqp.Config{
+		Vhost: conf.VHost,
 	})
 }
 
-type PostgresDatabaseConfig interface {
-	GetConfig() *postgresDatabaseConfig
-}
-
-type postgresDatabaseConfig struct {
+type PostgresDatabaseConfig struct {
 	Host     string `mapstructure:"host"`
 	Port     int    `mapstructure:"port"`
 	User     string `mapstructure:"username"`
@@ -107,14 +81,8 @@ type postgresDatabaseConfig struct {
 	SSL      string `mapstructure:"ssl"`
 }
 
-func (c *postgresDatabaseConfig) GetConfig() any {
-	return c
-}
-
-func InitPostgresDatabase(conf PostgresDatabaseConfig, isDebug bool) (db *gorm.DB, err error) {
-	config := conf.GetConfig()
-
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", config.Host, strconv.Itoa(config.Port), config.User, config.Password, config.Name, config.SSL)
+func InitPostgresDatabase(conf *PostgresDatabaseConfig, isDebug bool) (db *gorm.DB, err error) {
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", conf.Host, strconv.Itoa(conf.Port), conf.User, conf.Password, conf.Name, conf.SSL)
 
 	gormConf := &gorm.Config{}
 
@@ -130,26 +98,16 @@ func InitPostgresDatabase(conf PostgresDatabaseConfig, isDebug bool) (db *gorm.D
 	return
 }
 
-type RedisConfig interface {
-	GetConfig() *redisConfig
-}
-
-type redisConfig struct {
+type RedisConfig struct {
 	Host     string `mapstructure:"host"`
 	Password string `mapstructure:"password"`
 	DB       int    `mapstructure:"db"`
 }
 
-func (c *redisConfig) GetConfig() any {
-	return c
-}
-
-func InitRedisConnect(conf RedisConfig) (cache *redis.Client, err error) {
-	config := conf.GetConfig()
-
+func InitRedisConnect(conf *RedisConfig) (cache *redis.Client, err error) {
 	cache = redis.NewClient(&redis.Options{
-		Addr: config.Host,
-		DB:   config.DB,
+		Addr: conf.Host,
+		DB:   conf.DB,
 	})
 
 	return
