@@ -1,4 +1,4 @@
-module github.com/2110336-2565-2/sec3-group15-cu-freelance-logger
+module github.com/2110336-2565-2/sec3-group15-cu-freelance-logger.git
 
 go 1.19
 
