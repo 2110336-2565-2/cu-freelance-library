@@ -51,6 +51,7 @@ func (s *Logger) Info() *Logger {
 
 func (s *Logger) Error(err error) *Logger {
 	s.level = log.Error
+	s.err = err
 	return s
 }
 
@@ -59,13 +60,14 @@ func (s *Logger) Warn() *Logger {
 	return s
 }
 
-func (s *Logger) Debug(msg string, options ...interface{}) *Logger {
+func (s *Logger) Debug() *Logger {
 	s.level = log.Debug
 	return s
 }
 
-func (s *Logger) Fatal(msg string, options ...interface{}) *Logger {
+func (s *Logger) Fatal(err error) *Logger {
 	s.level = log.Fatal
+	s.err = err
 	return s
 }
 
