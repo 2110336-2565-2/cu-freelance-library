@@ -21,20 +21,52 @@ These instructions will guide you to download the library
 
 The logger service method usage
 
-**Info**
-Print the info level log
-```go
-    loggerService.Info("message", "key1", "val1", "key2", "val2",...)
-```
-
 **Debug**
 Print the debug level log
 ```go
-    loggerService.Info("message", "key1", "val1", "key2", "val2",...)
+loggerService.
+    Debug().
+    Keyword("key1", "val1").
+    Keyword("key2", "val2").
+    Msg("message")
+```
+
+**Info**
+Print the info level log
+```go
+loggerService.
+    Info().
+    Keyword("key1", "val1").
+    Keyword("key2", "val2").
+    Msg("message")
+```
+
+**Warn**
+Print the warning level log
+```go
+loggerService.
+    Warn().
+    Keyword("key1", "val1").
+    Keyword("key2", "val2").
+    Msg("message")
 ```
 
 **Error**
 Print the error level log and send sentry issue
 ```go
-    loggerService.Info("message", error, "key1", "val1", "key2", "val2",...)
+loggerService.
+    Error().
+    Keyword("key1", "val1").
+    Keyword("key2", "val2").
+    Msg("message")
+```
+
+**Fatal**
+Print the fatal level log and send sentry issue
+```go
+loggerService.
+    Fatal().
+    Keyword("key1", "val1").
+    Keyword("key2", "val2").
+    Msg("message")
 ```
