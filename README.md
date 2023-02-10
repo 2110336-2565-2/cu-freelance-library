@@ -7,10 +7,9 @@
 These instructions will guide you to download the library
 
 ### Installing
-`go get https://github.com/2110336-2565-2/cu-freelance-library@latest`
-
-1. Clone the project from [CU Freelance Library](https://github.com/2110336-2565-2/cu-freelance-library)
-2. Download this library by `go get github.com/2110336-2565-2/cu-freelance-library`
+```shell
+go get https://github.com/2110336-2565-2/cu-freelance-library@latest
+```
 
 ### Testing
 1. Run `go test -v -coverpkg ./internal/... -coverprofile coverage.out -covermode count ./...` or `make test`
@@ -294,6 +293,7 @@ if err != nil {
 | name                 | description          |
 |----------------------|----------------------|
 | Elasticsearch Config | Elasticsearch config |
+| Debug                | Enable debug mode    |
 
 
 **Configuration**
@@ -327,6 +327,7 @@ if err != nil {
 | name                 | description          |
 |----------------------|----------------------|
 | Elasticsearch Config | Elasticsearch config |
+| Debug                | Enable debug mode    |
 
 
 **Configuration**
