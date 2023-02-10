@@ -7,10 +7,10 @@
 These instructions will guide you to download the library
 
 ### Installing
-`go get https://github.com/2110336-2565-2/sec3-group15-cu-freelance-library@latest`
+`go get https://github.com/2110336-2565-2/cu-freelance-library@latest`
 
-1. Clone the project from [CU Freelance Library](https://github.com/2110336-2565-2/sec3-group15-cu-freelance-library)
-2. Download this library by `go get github.com/2110336-2565-2/sec3-group15-cu-freelance-library`
+1. Clone the project from [CU Freelance Library](https://github.com/2110336-2565-2/cu-freelance-library)
+2. Download this library by `go get github.com/2110336-2565-2/cu-freelance-library`
 
 ### Testing
 1. Run `go test -v -coverpkg ./internal/... -coverprofile coverage.out -covermode count ./...` or `make test`

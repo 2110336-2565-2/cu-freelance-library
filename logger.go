@@ -1,8 +1,8 @@
 package gosdk
 
 import (
-	"github.com/2110336-2565-2/sec3-group15-cu-freelance-library/pkg/log"
-	"github.com/2110336-2565-2/sec3-group15-cu-freelance-library/pkg/sentry"
+	"github.com/2110336-2565-2/cu-freelance-library/pkg/log"
+	"github.com/2110336-2565-2/cu-freelance-library/pkg/sentry"
 	"go.uber.org/zap"
 	"time"
 )
