@@ -50,7 +50,7 @@ func (s *Subscriber) Listen() {
 	for d := range msgs {
 		s.logger.Info().
 			Keyword("topic", d.RoutingKey).
-			Msg("Received message")
+			Msg("Received event")
 
 		for _, messageHandler := range s.handlerList {
 			messageHandler(context.WithValue(context.Background(), "message", d.Body))
