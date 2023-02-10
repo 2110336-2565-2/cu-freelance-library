@@ -1,6 +1,6 @@
 package sentry
 
-type Service interface {
+type Sentry interface {
 	CaptureMessage(msg string)
 	CaptureException(err error)
 }
