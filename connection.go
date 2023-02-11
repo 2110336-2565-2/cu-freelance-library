@@ -1,64 +1,47 @@
 package gosdk
 
 import (
+	"crypto/tls"
 	"fmt"
-	"github.com/elastic/elastic-transport-go/v8/elastictransport"
-	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/go-redis/redis/v8"
+	"github.com/opensearch-project/opensearch-go"
+	"github.com/opensearch-project/opensearch-go/opensearchtransport"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"net/http"
 	"os"
 	"strconv"
 )
 
-type ElasticsearchConfig struct {
-	Host     string `mapstructure:"host"`
-	Username string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
+type OpensearchConfig struct {
+	Host               string `mapstructure:"host"`
+	Username           string `mapstructure:"username"`
+	Password           string `mapstructure:"password"`
+	InsecureSkipVerify bool   `mapstructure:"skip-ssl"`
 }
 
-func InitElasticDefaultClient(conf *ElasticsearchConfig, isDebug bool) (*elasticsearch.Client, error) {
-	esConf := elasticsearch.Config{
-		Addresses: []string{conf.Host},
-		Username:  conf.Username,
-		Password:  conf.Password,
+func InitOpenSearchClient(conf *OpensearchConfig, isDebug bool) (*opensearch.Client, error) {
+	opensearchConf := opensearch.Config{
+		Addresses:     []string{conf.Host},
+		Username:      conf.Username,
+		Password:      conf.Password,
+		RetryOnStatus: []int{502, 503, 504, 429},
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: conf.InsecureSkipVerify},
+		},
 	}
 
 	if isDebug {
-		esConf.Logger = &elastictransport.ColorLogger{
+		opensearchConf.Logger = &opensearchtransport.ColorLogger{
 			Output:             os.Stdout,
 			EnableRequestBody:  true,
 			EnableResponseBody: true,
 		}
 	}
 
-	client, _ := elasticsearch.NewClient(esConf)
-
-	if _, err := client.Info(); err != nil {
-		return nil, err
-	}
-
-	return client, nil
-}
-
-func InitElasticTypedClient(conf *ElasticsearchConfig, isDebug bool) (*elasticsearch.TypedClient, error) {
-	esConf := elasticsearch.Config{
-		Addresses: []string{conf.Host},
-		Username:  conf.Username,
-		Password:  conf.Password,
-	}
-
-	if isDebug {
-		esConf.Logger = &elastictransport.ColorLogger{
-			Output:             os.Stdout,
-			EnableRequestBody:  true,
-			EnableResponseBody: true,
-		}
-	}
-
-	return elasticsearch.NewTypedClient(esConf)
+	return opensearch.NewClient(opensearchConf)
 }
 
 type RabbitMQConfig struct {
