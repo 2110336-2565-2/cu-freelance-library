@@ -7,19 +7,6 @@ import (
 	"time"
 )
 
-type ElasticsearchDocumentAble interface {
-	ToDoc() any
-	GetID() string
-}
-
-type BaseMongo struct {
-	ID ObjectID `json:"_id"`
-}
-
-type ObjectID struct {
-	OID string `json:"$oid"`
-}
-
 type Base struct {
 	ID        *uuid.UUID     `json:"id" gorm:"primary_key"`
 	CreatedAt time.Time      `json:"created_at" gorm:"type:timestamp;autoCreateTime:nano"`
