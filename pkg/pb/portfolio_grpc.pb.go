@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type PortfolioServiceClient interface {
 	FindAllPortfolio(ctx context.Context, in *FindAllPortfolioRequest, opts ...grpc.CallOption) (*FindAllPortfolioResponse, error)
 	FindOnePortfolio(ctx context.Context, in *FindOnePortfolioRequest, opts ...grpc.CallOption) (*FindOnePortfolioResponse, error)
+	FindPortfolioByOwnerID(ctx context.Context, in *FindPortfolioByOwnerIDRequest, opts ...grpc.CallOption) (*FindPortfolioByOwnerIDResponse, error)
 	CreatePortfolio(ctx context.Context, in *CreatePortfolioRequest, opts ...grpc.CallOption) (*CreatePortfolioResponse, error)
 	UpdatePortfolio(ctx context.Context, in *UpdatePortfolioRequest, opts ...grpc.CallOption) (*UpdatePortfolioResponse, error)
 	DeletePortfolio(ctx context.Context, in *DeletePortfolioRequest, opts ...grpc.CallOption) (*DeletePortfolioResponse, error)
@@ -49,6 +50,15 @@ func (c *portfolioServiceClient) FindAllPortfolio(ctx context.Context, in *FindA
 func (c *portfolioServiceClient) FindOnePortfolio(ctx context.Context, in *FindOnePortfolioRequest, opts ...grpc.CallOption) (*FindOnePortfolioResponse, error) {
 	out := new(FindOnePortfolioResponse)
 	err := c.cc.Invoke(ctx, "/portfolio.PortfolioService/FindOnePortfolio", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *portfolioServiceClient) FindPortfolioByOwnerID(ctx context.Context, in *FindPortfolioByOwnerIDRequest, opts ...grpc.CallOption) (*FindPortfolioByOwnerIDResponse, error) {
+	out := new(FindPortfolioByOwnerIDResponse)
+	err := c.cc.Invoke(ctx, "/portfolio.PortfolioService/FindPortfolioByOwnerID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -88,6 +98,7 @@ func (c *portfolioServiceClient) DeletePortfolio(ctx context.Context, in *Delete
 type PortfolioServiceServer interface {
 	FindAllPortfolio(context.Context, *FindAllPortfolioRequest) (*FindAllPortfolioResponse, error)
 	FindOnePortfolio(context.Context, *FindOnePortfolioRequest) (*FindOnePortfolioResponse, error)
+	FindPortfolioByOwnerID(context.Context, *FindPortfolioByOwnerIDRequest) (*FindPortfolioByOwnerIDResponse, error)
 	CreatePortfolio(context.Context, *CreatePortfolioRequest) (*CreatePortfolioResponse, error)
 	UpdatePortfolio(context.Context, *UpdatePortfolioRequest) (*UpdatePortfolioResponse, error)
 	DeletePortfolio(context.Context, *DeletePortfolioRequest) (*DeletePortfolioResponse, error)
@@ -102,6 +113,9 @@ func (UnimplementedPortfolioServiceServer) FindAllPortfolio(context.Context, *Fi
 }
 func (UnimplementedPortfolioServiceServer) FindOnePortfolio(context.Context, *FindOnePortfolioRequest) (*FindOnePortfolioResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOnePortfolio not implemented")
+}
+func (UnimplementedPortfolioServiceServer) FindPortfolioByOwnerID(context.Context, *FindPortfolioByOwnerIDRequest) (*FindPortfolioByOwnerIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPortfolioByOwnerID not implemented")
 }
 func (UnimplementedPortfolioServiceServer) CreatePortfolio(context.Context, *CreatePortfolioRequest) (*CreatePortfolioResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePortfolio not implemented")
@@ -156,6 +170,24 @@ func _PortfolioService_FindOnePortfolio_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PortfolioServiceServer).FindOnePortfolio(ctx, req.(*FindOnePortfolioRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PortfolioService_FindPortfolioByOwnerID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindPortfolioByOwnerIDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PortfolioServiceServer).FindPortfolioByOwnerID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/portfolio.PortfolioService/FindPortfolioByOwnerID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PortfolioServiceServer).FindPortfolioByOwnerID(ctx, req.(*FindPortfolioByOwnerIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -228,6 +260,10 @@ var PortfolioService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindOnePortfolio",
 			Handler:    _PortfolioService_FindOnePortfolio_Handler,
+		},
+		{
+			MethodName: "FindPortfolioByOwnerID",
+			Handler:    _PortfolioService_FindPortfolioByOwnerID_Handler,
 		},
 		{
 			MethodName: "CreatePortfolio",
