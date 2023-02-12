@@ -12,7 +12,7 @@ go get https://github.com/2110336-2565-2/cu-freelance-library@latest
 ```
 
 ### Testing
-1. Run `go test -v -coverpkg ./internal/... -coverprofile coverage.out -covermode count ./...` or `make test`
+1. Run `go test -v -coverpkg . -coverprofile coverage.out -covermode count .` or `make test`
 
 ## Table of contents
 ### Overview
