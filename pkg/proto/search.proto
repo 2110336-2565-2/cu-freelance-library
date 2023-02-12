@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package course_search;
+
+option go_package = "pkg/pb;pb";
+
+import "common.proto";
+import "portfolio.proto";
+
+service SearchService {
+  rpc SearchPortfolio(SearchPortfolioRequest) returns (SearchPortfolioResponse) {}
+  rpc SearchFreelance(SearchFreelanceRequest) returns (SearchFreelanceResponse) {}
+}
+
+message PortfolioPagination{
+  repeated portfolio.Portfolio items = 1;
+  common.PaginationMetadata meta = 2;
+}
+
+// Search Portfolio
+
+message PortfolioFilter{
+  string keyword = 1;
+  string category = 2;
+  string faculty = 3;
+  uint32 price = 4;
+  uint32 duration = 5;
+}
+
+message SearchPortfolioRequest{
+  string Keyword = 1;
+  PortfolioFilter Filter = 2;
+  common.PaginationQuery PaginationQuery = 8;
+}
+
+message SearchPortfolioResponse{
+  PortfolioPagination Pagination = 1;
+}
+
+// Search Freelance
+
+message FreelanceFilter{
+
+}
+
+message SearchFreelanceRequest{
+  string Keyword = 1;
+  FreelanceFilter Filter = 2;
+  common.PaginationQuery PaginationQuery = 8;
+}
+
+message SearchFreelanceResponse{
+  PortfolioPagination Pagination = 1;
+}

@@ -9,7 +9,6 @@ import "common.proto";
 service PortfolioService {
   rpc FindAllPortfolio (FindAllPortfolioRequest) returns (FindAllPortfolioResponse) {}
   rpc FindOnePortfolio (FindOnePortfolioRequest) returns (FindOnePortfolioResponse) {}
-  rpc FindPortfolioByOwnerID (FindPortfolioByOwnerIDRequest) returns (FindPortfolioByOwnerIDResponse) {}
   rpc CreatePortfolio (CreatePortfolioRequest) returns (CreatePortfolioResponse) {}
   rpc UpdatePortfolio (UpdatePortfolioRequest) returns (UpdatePortfolioResponse) {}
   rpc DeletePortfolio (DeletePortfolioRequest) returns (DeletePortfolioResponse) {}
@@ -52,16 +51,6 @@ message FindOnePortfolioResponse{
   Portfolio portfolio = 1;
 }
 
-// Find Portfolio By OwnerID
-
-message FindPortfolioByOwnerIDRequest{
-  string id = 1;
-}
-
-message FindPortfolioByOwnerIDResponse{
-  Portfolio portfolio = 1;
-}
-
 // Create Portfolio
 
 message CreatePortfolioRequest {
@@ -73,6 +62,7 @@ message CreatePortfolioRequest {
   string category = 6;
   int32 price = 7;
   int32 duration = 8;
+  string user_id = 9;
 }
 
 message CreatePortfolioResponse {
