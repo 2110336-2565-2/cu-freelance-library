@@ -12,11 +12,6 @@ service SearchService {
   rpc SearchFreelance(SearchFreelanceRequest) returns (SearchFreelanceResponse) {}
 }
 
-message PortfolioPagination{
-  repeated portfolio.Portfolio items = 1;
-  common.PaginationMetadata meta = 2;
-}
-
 // Search Portfolio
 
 message PortfolioFilter{
@@ -34,7 +29,7 @@ message SearchPortfolioRequest{
 }
 
 message SearchPortfolioResponse{
-  PortfolioPagination Pagination = 1;
+  portfolio.PortfolioPagination Pagination = 1;
 }
 
 // Search Freelance
@@ -50,5 +45,5 @@ message SearchFreelanceRequest{
 }
 
 message SearchFreelanceResponse{
-  PortfolioPagination Pagination = 1;
+  portfolio.PortfolioPagination Pagination = 1;
 }
