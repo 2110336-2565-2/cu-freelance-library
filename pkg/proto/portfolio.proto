@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package portfolio;
+
+option go_package = "pkg/pb;pb";
+
+import "common.proto";
+
+service PortfolioService {
+  rpc FindAllPortfolio (FindAllPortfolioRequest) returns (FindAllPortfolioResponse) {}
+  rpc FindOnePortfolio (FindOnePortfolioRequest) returns (FindOnePortfolioResponse) {}
+  rpc FindPortfolioByOwnerID (FindPortfolioByOwnerIDRequest) returns (FindPortfolioByOwnerIDResponse) {}
+  rpc CreatePortfolio (CreatePortfolioRequest) returns (CreatePortfolioResponse) {}
+  rpc UpdatePortfolio (UpdatePortfolioRequest) returns (UpdatePortfolioResponse) {}
+  rpc DeletePortfolio (DeletePortfolioRequest) returns (DeletePortfolioResponse) {}
+}
+
+message Portfolio {
+  string id = 1;
+  string name_en = 2;
+  string name_th = 3;
+  string description_en = 4;
+  string description_th = 5;
+  bool is_public = 6;
+  string category = 7;
+  int32 price = 8;
+  int32 duration = 9;
+}
+
+message PortfolioPagination{
+  repeated Portfolio items = 1;
+  common.PaginationMetadata meta = 2;
+}
+
+// Find All Portfolio
+
+message FindAllPortfolioRequest{
+  common.PaginationQuery query = 1;
+}
+
+message FindAllPortfolioResponse{
+  PortfolioPagination pagination = 1;
+}
+
+// Find One Portfolio
+
+message FindOnePortfolioRequest{
+  string id = 1;
+}
+
+message FindOnePortfolioResponse{
+  Portfolio portfolio = 1;
+}
+
+// Find Portfolio By OwnerID
+
+message FindPortfolioByOwnerIDRequest{
+  string id = 1;
+}
+
+message FindPortfolioByOwnerIDResponse{
+  Portfolio portfolio = 1;
+}
+
+// Create Portfolio
+
+message CreatePortfolioRequest {
+  string name_en = 1;
+  string name_th = 2;
+  string description_en = 3;
+  string description_th = 4;
+  bool is_public = 5;
+  string category = 6;
+  int32 price = 7;
+  int32 duration = 8;
+}
+
+message CreatePortfolioResponse {
+  Portfolio portfolio = 1;
+}
+
+// Update Portfolio
+
+message UpdatePortfolioRequest {
+  string id = 1;
+  string name_en = 2;
+  string name_th = 3;
+  string description_en = 4;
+  string description_th = 5;
+  bool is_public = 6;
+  string category = 7;
+  int32 price = 8;
+  int32 duration = 9;
+}
+
+message UpdatePortfolioResponse {
+  bool is_success = 1;
+}
+
+// Delete Portfolio
+
+message DeletePortfolioRequest {
+  string id = 1;
+}
+
+message DeletePortfolioResponse {
+  bool is_success = 1;
+}

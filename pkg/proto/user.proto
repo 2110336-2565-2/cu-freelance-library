@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "pkg/pb;pb";
+
+service UserService {
+  rpc FindOneLocalUser(FindOneLocalUserRequest) returns (FindOneLocalUserResponse){}
+  rpc FindOneStudentUser(FindOneStudentUserRequest) returns (FindOneStudentUserResponse){}
+  rpc Update(UpdateUserRequest) returns (UpdateUserResponse){}
+}
+
+message LocalUser{
+  string id = 1;
+  string username = 2;
+  string title = 3;
+  string firstname = 4;
+  string lastname = 5;
+  string phone = 6;
+  string email = 7;
+  string display_name = 8;
+}
+
+message StudentUser{
+  string id = 1;
+  string title = 2;
+  string firstname = 3;
+  string lastname = 4;
+  string phone = 5;
+  string email = 6;
+  string student_id = 7;
+  string faculty = 8;
+  string year = 9;
+  string display_name = 10;
+}
+
+// Local User
+
+message FindOneLocalUserRequest{
+  string id = 1;
+}
+
+message FindOneLocalUserResponse{
+  LocalUser user = 1;
+}
+
+// Student User
+
+message FindOneStudentUserRequest{
+  string id = 1;
+}
+
+message FindOneStudentUserResponse{
+  StudentUser user = 1;
+}
+
+// Update User
+
+message UpdateUserRequest{
+  string id = 1;
+  string title = 2;
+  string firstname = 3;
+  string lastname = 4;
+  string phone = 5;
+  string email = 6;
+  string display_name = 7;
+}
+
+message UpdateUserResponse{
+  bool is_success = 1;
+}
