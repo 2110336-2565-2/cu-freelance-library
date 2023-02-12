@@ -127,3 +127,63 @@ if err != nil{
 | name  | description              | example |
 |-------|--------------------------|---------|
 | year  | the year from student id | 3       |
+
+### IsExisted
+Check is the variable existed in map
+
+```go
+if ok := gosdk.IsExisted(map, key); !ok {
+	// handle error
+}
+```
+
+
+#### Parameters
+| name | description                           | example   |
+|------|---------------------------------------|-----------|
+| map  | the map structure                     |           |
+| key  | the key of map that you want to check | "hello"   |
+
+#### Return
+
+| name | description        | example |
+|------|--------------------|---------|
+| ok   | boolean is existed | true    |
+
+### MergeStringSlice
+merge slices of string into one slice
+
+```go
+resultSlice := gosdk.MergeStringSlice(slice1, slice2, ...)
+```
+
+#### Parameters
+| name  | description        | example   |
+|-------|--------------------|-----------|
+| slice | the `string` slice |           |
+
+#### Return
+
+| name         | description                         | example |
+|--------------|-------------------------------------|---------|
+| resultSlice  | the slice of string that was merged | true    |
+
+### TrimInList
+Trim the string if existed in list
+
+```go
+result := gosdk.TrimInList(word, sep, trimList)
+```
+
+#### Parameters
+| name     | description                                               | example                       |
+|----------|-----------------------------------------------------------|-------------------------------|
+| word     | the input word                                            | /v1/path                      |
+| sep      | the separate work                                         | /                             |
+| trimList | the list of word that want to trim in `map[string]struct` | map[string]struct{}{"v1": {}} |
+
+#### Return
+
+| name    | description                    | example |
+|---------|--------------------------------|---------|
+| result  | result string that was trimmed | /path   |
