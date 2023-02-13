@@ -60,7 +60,7 @@ message FindPortfolioByOwnerIDRequest{
 }
 
 message FindPortfolioByOwnerIDResponse{
-  PortfolioPagination portfolio = 1;
+  PortfolioPagination pagination = 1;
 }
 
 // Create Portfolio
