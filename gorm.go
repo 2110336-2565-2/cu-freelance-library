@@ -67,6 +67,7 @@ type GormRepository[T Entity] interface {
 	Create(entity T, scope ...func(db *gorm.DB) *gorm.DB) error
 	Update(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error
 	Delete(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error
+	GetDB() *gorm.DB
 }
 
 type gormRepository[T Entity] struct {
@@ -77,6 +78,10 @@ func NewGormRepository[T Entity](db *gorm.DB) GormRepository[T] {
 	return &gormRepository[T]{
 		db: db,
 	}
+}
+
+func (r *gormRepository[T]) GetDB() *gorm.DB {
+	return r.db
 }
 
 func (r *gormRepository[T]) FindAll(metadata *PaginationMetadata, entities *[]T, scope ...func(db *gorm.DB) *gorm.DB) error {
