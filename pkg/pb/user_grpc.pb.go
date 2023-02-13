@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
 	FindOneLocalUser(ctx context.Context, in *FindOneLocalUserRequest, opts ...grpc.CallOption) (*FindOneLocalUserResponse, error)
-	FindOneStudentUser(ctx context.Context, in *FindOneStudentUserRequest, opts ...grpc.CallOption) (*FindOneStudentUserResponse, error)
+	FindOneUserStudent(ctx context.Context, in *FindOneUserStudentRequest, opts ...grpc.CallOption) (*FindOneUserStudentResponse, error)
 	Update(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 }
 
@@ -44,9 +44,9 @@ func (c *userServiceClient) FindOneLocalUser(ctx context.Context, in *FindOneLoc
 	return out, nil
 }
 
-func (c *userServiceClient) FindOneStudentUser(ctx context.Context, in *FindOneStudentUserRequest, opts ...grpc.CallOption) (*FindOneStudentUserResponse, error) {
-	out := new(FindOneStudentUserResponse)
-	err := c.cc.Invoke(ctx, "/user.UserService/FindOneStudentUser", in, out, opts...)
+func (c *userServiceClient) FindOneUserStudent(ctx context.Context, in *FindOneUserStudentRequest, opts ...grpc.CallOption) (*FindOneUserStudentResponse, error) {
+	out := new(FindOneUserStudentResponse)
+	err := c.cc.Invoke(ctx, "/user.UserService/FindOneUserStudent", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (c *userServiceClient) Update(ctx context.Context, in *UpdateUserRequest, o
 // for forward compatibility
 type UserServiceServer interface {
 	FindOneLocalUser(context.Context, *FindOneLocalUserRequest) (*FindOneLocalUserResponse, error)
-	FindOneStudentUser(context.Context, *FindOneStudentUserRequest) (*FindOneStudentUserResponse, error)
+	FindOneUserStudent(context.Context, *FindOneUserStudentRequest) (*FindOneUserStudentResponse, error)
 	Update(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 }
 
@@ -78,8 +78,8 @@ type UnimplementedUserServiceServer struct {
 func (UnimplementedUserServiceServer) FindOneLocalUser(context.Context, *FindOneLocalUserRequest) (*FindOneLocalUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOneLocalUser not implemented")
 }
-func (UnimplementedUserServiceServer) FindOneStudentUser(context.Context, *FindOneStudentUserRequest) (*FindOneStudentUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindOneStudentUser not implemented")
+func (UnimplementedUserServiceServer) FindOneUserStudent(context.Context, *FindOneUserStudentRequest) (*FindOneUserStudentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindOneUserStudent not implemented")
 }
 func (UnimplementedUserServiceServer) Update(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
@@ -114,20 +114,20 @@ func _UserService_FindOneLocalUser_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_FindOneStudentUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindOneStudentUserRequest)
+func _UserService_FindOneUserStudent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindOneUserStudentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).FindOneStudentUser(ctx, in)
+		return srv.(UserServiceServer).FindOneUserStudent(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.UserService/FindOneStudentUser",
+		FullMethod: "/user.UserService/FindOneUserStudent",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FindOneStudentUser(ctx, req.(*FindOneStudentUserRequest))
+		return srv.(UserServiceServer).FindOneUserStudent(ctx, req.(*FindOneUserStudentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -162,8 +162,8 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_FindOneLocalUser_Handler,
 		},
 		{
-			MethodName: "FindOneStudentUser",
-			Handler:    _UserService_FindOneStudentUser_Handler,
+			MethodName: "FindOneUserStudent",
+			Handler:    _UserService_FindOneUserStudent_Handler,
 		},
 		{
 			MethodName: "Update",

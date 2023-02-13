@@ -32,7 +32,7 @@ type Portfolio struct {
 	Category    string       `protobuf:"bytes,5,opt,name=category,proto3" json:"category,omitempty"`
 	Price       float32      `protobuf:"fixed32,6,opt,name=price,proto3" json:"price,omitempty"`
 	Duration    int32        `protobuf:"varint,7,opt,name=duration,proto3" json:"duration,omitempty"`
-	Freelance   *StudentUser `protobuf:"bytes,8,opt,name=freelance,proto3" json:"freelance,omitempty"`
+	Freelance   *UserStudent `protobuf:"bytes,8,opt,name=freelance,proto3" json:"freelance,omitempty"`
 }
 
 func (x *Portfolio) Reset() {
@@ -116,7 +116,7 @@ func (x *Portfolio) GetDuration() int32 {
 	return 0
 }
 
-func (x *Portfolio) GetFreelance() *StudentUser {
+func (x *Portfolio) GetFreelance() *UserStudent {
 	if x != nil {
 		return x.Freelance
 	}
@@ -1003,12 +1003,12 @@ var file_portfolio_proto_goTypes = []interface{}{
 	(*UpdatePortfolioResponse)(nil),        // 11: portfolio.UpdatePortfolioResponse
 	(*DeletePortfolioRequest)(nil),         // 12: portfolio.DeletePortfolioRequest
 	(*DeletePortfolioResponse)(nil),        // 13: portfolio.DeletePortfolioResponse
-	(*StudentUser)(nil),                    // 14: user.StudentUser
+	(*UserStudent)(nil),                    // 14: user.UserStudent
 	(*PaginationMetadata)(nil),             // 15: common.PaginationMetadata
 	(*PaginationQuery)(nil),                // 16: common.PaginationQuery
 }
 var file_portfolio_proto_depIdxs = []int32{
-	14, // 0: portfolio.Portfolio.freelance:type_name -> user.StudentUser
+	14, // 0: portfolio.Portfolio.freelance:type_name -> user.UserStudent
 	0,  // 1: portfolio.PortfolioPagination.items:type_name -> portfolio.Portfolio
 	15, // 2: portfolio.PortfolioPagination.meta:type_name -> common.PaginationMetadata
 	16, // 3: portfolio.FindAllPortfolioRequest.query:type_name -> common.PaginationQuery

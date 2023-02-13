@@ -123,7 +123,7 @@ func (x *LocalUser) GetDisplayName() string {
 	return ""
 }
 
-type StudentUser struct {
+type UserStudent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -140,8 +140,8 @@ type StudentUser struct {
 	DisplayName string `protobuf:"bytes,10,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 }
 
-func (x *StudentUser) Reset() {
-	*x = StudentUser{}
+func (x *UserStudent) Reset() {
+	*x = UserStudent{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_user_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -149,13 +149,13 @@ func (x *StudentUser) Reset() {
 	}
 }
 
-func (x *StudentUser) String() string {
+func (x *UserStudent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*StudentUser) ProtoMessage() {}
+func (*UserStudent) ProtoMessage() {}
 
-func (x *StudentUser) ProtoReflect() protoreflect.Message {
+func (x *UserStudent) ProtoReflect() protoreflect.Message {
 	mi := &file_user_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -167,75 +167,75 @@ func (x *StudentUser) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StudentUser.ProtoReflect.Descriptor instead.
-func (*StudentUser) Descriptor() ([]byte, []int) {
+// Deprecated: Use UserStudent.ProtoReflect.Descriptor instead.
+func (*UserStudent) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *StudentUser) GetId() string {
+func (x *UserStudent) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *StudentUser) GetTitle() string {
+func (x *UserStudent) GetTitle() string {
 	if x != nil {
 		return x.Title
 	}
 	return ""
 }
 
-func (x *StudentUser) GetFirstname() string {
+func (x *UserStudent) GetFirstname() string {
 	if x != nil {
 		return x.Firstname
 	}
 	return ""
 }
 
-func (x *StudentUser) GetLastname() string {
+func (x *UserStudent) GetLastname() string {
 	if x != nil {
 		return x.Lastname
 	}
 	return ""
 }
 
-func (x *StudentUser) GetPhone() string {
+func (x *UserStudent) GetPhone() string {
 	if x != nil {
 		return x.Phone
 	}
 	return ""
 }
 
-func (x *StudentUser) GetEmail() string {
+func (x *UserStudent) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-func (x *StudentUser) GetStudentId() string {
+func (x *UserStudent) GetStudentId() string {
 	if x != nil {
 		return x.StudentId
 	}
 	return ""
 }
 
-func (x *StudentUser) GetFaculty() string {
+func (x *UserStudent) GetFaculty() string {
 	if x != nil {
 		return x.Faculty
 	}
 	return ""
 }
 
-func (x *StudentUser) GetYear() string {
+func (x *UserStudent) GetYear() string {
 	if x != nil {
 		return x.Year
 	}
 	return ""
 }
 
-func (x *StudentUser) GetDisplayName() string {
+func (x *UserStudent) GetDisplayName() string {
 	if x != nil {
 		return x.DisplayName
 	}
@@ -336,7 +336,7 @@ func (x *FindOneLocalUserResponse) GetUser() *LocalUser {
 	return nil
 }
 
-type FindOneStudentUserRequest struct {
+type FindOneUserStudentRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -344,8 +344,8 @@ type FindOneStudentUserRequest struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
-func (x *FindOneStudentUserRequest) Reset() {
-	*x = FindOneStudentUserRequest{}
+func (x *FindOneUserStudentRequest) Reset() {
+	*x = FindOneUserStudentRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_user_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -353,13 +353,13 @@ func (x *FindOneStudentUserRequest) Reset() {
 	}
 }
 
-func (x *FindOneStudentUserRequest) String() string {
+func (x *FindOneUserStudentRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FindOneStudentUserRequest) ProtoMessage() {}
+func (*FindOneUserStudentRequest) ProtoMessage() {}
 
-func (x *FindOneStudentUserRequest) ProtoReflect() protoreflect.Message {
+func (x *FindOneUserStudentRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_user_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -371,28 +371,28 @@ func (x *FindOneStudentUserRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FindOneStudentUserRequest.ProtoReflect.Descriptor instead.
-func (*FindOneStudentUserRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use FindOneUserStudentRequest.ProtoReflect.Descriptor instead.
+func (*FindOneUserStudentRequest) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *FindOneStudentUserRequest) GetId() string {
+func (x *FindOneUserStudentRequest) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-type FindOneStudentUserResponse struct {
+type FindOneUserStudentResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	User *StudentUser `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User *UserStudent `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 }
 
-func (x *FindOneStudentUserResponse) Reset() {
-	*x = FindOneStudentUserResponse{}
+func (x *FindOneUserStudentResponse) Reset() {
+	*x = FindOneUserStudentResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_user_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -400,13 +400,13 @@ func (x *FindOneStudentUserResponse) Reset() {
 	}
 }
 
-func (x *FindOneStudentUserResponse) String() string {
+func (x *FindOneUserStudentResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FindOneStudentUserResponse) ProtoMessage() {}
+func (*FindOneUserStudentResponse) ProtoMessage() {}
 
-func (x *FindOneStudentUserResponse) ProtoReflect() protoreflect.Message {
+func (x *FindOneUserStudentResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_user_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -418,12 +418,12 @@ func (x *FindOneStudentUserResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FindOneStudentUserResponse.ProtoReflect.Descriptor instead.
-func (*FindOneStudentUserResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use FindOneUserStudentResponse.ProtoReflect.Descriptor instead.
+func (*FindOneUserStudentResponse) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *FindOneStudentUserResponse) GetUser() *StudentUser {
+func (x *FindOneUserStudentResponse) GetUser() *UserStudent {
 	if x != nil {
 		return x.User
 	}
@@ -671,22 +671,22 @@ func file_user_proto_rawDescGZIP() []byte {
 var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_user_proto_goTypes = []interface{}{
 	(*LocalUser)(nil),                  // 0: user.LocalUser
-	(*StudentUser)(nil),                // 1: user.StudentUser
+	(*UserStudent)(nil),                // 1: user.UserStudent
 	(*FindOneLocalUserRequest)(nil),    // 2: user.FindOneLocalUserRequest
 	(*FindOneLocalUserResponse)(nil),   // 3: user.FindOneLocalUserResponse
-	(*FindOneStudentUserRequest)(nil),  // 4: user.FindOneStudentUserRequest
-	(*FindOneStudentUserResponse)(nil), // 5: user.FindOneStudentUserResponse
+	(*FindOneUserStudentRequest)(nil),  // 4: user.FindOneUserStudentRequest
+	(*FindOneUserStudentResponse)(nil), // 5: user.FindOneUserStudentResponse
 	(*UpdateUserRequest)(nil),          // 6: user.UpdateUserRequest
 	(*UpdateUserResponse)(nil),         // 7: user.UpdateUserResponse
 }
 var file_user_proto_depIdxs = []int32{
 	0, // 0: user.FindOneLocalUserResponse.user:type_name -> user.LocalUser
-	1, // 1: user.FindOneStudentUserResponse.user:type_name -> user.StudentUser
+	1, // 1: user.FindOneUserStudentResponse.user:type_name -> user.UserStudent
 	2, // 2: user.UserService.FindOneLocalUser:input_type -> user.FindOneLocalUserRequest
-	4, // 3: user.UserService.FindOneStudentUser:input_type -> user.FindOneStudentUserRequest
+	4, // 3: user.UserService.FindOneUserStudent:input_type -> user.FindOneUserStudentRequest
 	6, // 4: user.UserService.Update:input_type -> user.UpdateUserRequest
 	3, // 5: user.UserService.FindOneLocalUser:output_type -> user.FindOneLocalUserResponse
-	5, // 6: user.UserService.FindOneStudentUser:output_type -> user.FindOneStudentUserResponse
+	5, // 6: user.UserService.FindOneUserStudent:output_type -> user.FindOneUserStudentResponse
 	7, // 7: user.UserService.Update:output_type -> user.UpdateUserResponse
 	5, // [5:8] is the sub-list for method output_type
 	2, // [2:5] is the sub-list for method input_type
@@ -714,7 +714,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StudentUser); i {
+			switch v := v.(*UserStudent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -750,7 +750,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FindOneStudentUserRequest); i {
+			switch v := v.(*FindOneUserStudentRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -762,7 +762,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FindOneStudentUserResponse); i {
+			switch v := v.(*FindOneUserStudentResponse); i {
 			case 0:
 				return &v.state
 			case 1:

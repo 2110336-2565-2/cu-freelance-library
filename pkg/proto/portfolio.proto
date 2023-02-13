@@ -24,7 +24,7 @@ message Portfolio {
   string category = 5;
   float price = 6;
   int32 duration = 7;
-  user.StudentUser freelance = 8;
+  user.UserStudent freelance = 8;
 }
 
 message PortfolioPagination{

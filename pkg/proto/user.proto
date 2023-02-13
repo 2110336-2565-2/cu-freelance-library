@@ -6,7 +6,7 @@ option go_package = "pkg/pb;pb";
 
 service UserService {
   rpc FindOneLocalUser(FindOneLocalUserRequest) returns (FindOneLocalUserResponse){}
-  rpc FindOneStudentUser(FindOneStudentUserRequest) returns (FindOneStudentUserResponse){}
+  rpc FindOneUserStudent(FindOneUserStudentRequest) returns (FindOneUserStudentResponse){}
   rpc Update(UpdateUserRequest) returns (UpdateUserResponse){}
 }
 
@@ -21,7 +21,7 @@ message LocalUser{
   string display_name = 8;
 }
 
-message StudentUser{
+message UserStudent{
   string id = 1;
   string title = 2;
   string firstname = 3;
@@ -46,12 +46,12 @@ message FindOneLocalUserResponse{
 
 // Student User
 
-message FindOneStudentUserRequest{
+message FindOneUserStudentRequest{
   string id = 1;
 }
 
-message FindOneStudentUserResponse{
-  StudentUser user = 1;
+message FindOneUserStudentResponse{
+  UserStudent user = 1;
 }
 
 // Update User
