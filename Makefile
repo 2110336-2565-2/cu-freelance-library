@@ -5,6 +5,8 @@ proto:
 	protoc --proto_path=pkg/proto --go_out=. --go-grpc_out=require_unimplemented_servers=false:. auth.proto
 	protoc --proto_path=pkg/proto --go_out=. --go-grpc_out=require_unimplemented_servers=false:. search.proto
 	protoc --proto_path=pkg/proto --go_out=. --go-grpc_out=require_unimplemented_servers=false:. suggest.proto
+	protoc --proto_path=pkg/proto --go_out=. --go-grpc_out=require_unimplemented_servers=false:. order.proto
+	protoc --proto_path=pkg/proto --go_out=. --go-grpc_out=require_unimplemented_servers=false:. file.proto
 
 test:
 	go test -v -coverpkg . -coverprofile coverage.out -covermode count .

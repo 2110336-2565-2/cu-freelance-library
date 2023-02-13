@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package file;
+
+option go_package = "pkg/pb;pb";
+
+service FileService {
+    rpc UploadAvatarImage(UploadAvatarImageRequest) returns (UploadAvatarImageResponse);
+    rpc UploadPortfolioImage(UploadPortfolioImageRequest) returns (UploadPortfolioImageResponse);
+    rpc GetUserAvatar(GetUserAvatarRequest) returns (UserAvatarResponse);
+    rpc GetSinglePortImage(GetSinglePortImageRequest) returns (SinglePortImageResponse);
+    rpc GetAllPortImage(GetAllPortImageRequest) returns (AllPortImageResponse);
+}
+
+message File{
+    int64 size = 1;
+    string fileType = 2;
+    bytes file = 3;
+}
+
+message UploadAvatarImageRequest{
+    int64 userId = 1;
+    File file = 2;
+}
+
+message UploadAvatarImageResponse{
+    int64 userId = 1;
+    string url = 2;
+}
+
+message UploadPortfolioImageRequest{
+    int64 userId = 1;
+    int64 portId = 2;
+    File file = 3;
+}
+
+message UploadPortfolioImageResponse{
+    int64 userId = 1;
+    int64 portId = 2;
+    string url = 3; 
+}
+
+message GetUserAvatarRequest{
+    int64 userId = 1;
+}
+
+message UserAvatarResponse{
+    int64 userId = 1;
+    string url = 2;
+}
+
+message GetSinglePortImageRequest{
+    int64 userId = 1;
+    int64 portId = 2;
+}
+
+message SinglePortImageResponse{
+    int64 userId = 1;
+    int64 portId = 2;
+    string url = 3;
+}
+
+message GetAllPortImageRequest{
+    int64 userId = 1;
+}
+
+message PortImages{
+    int64 portId = 1;
+    string url = 2;
+}
+
+message AllPortImageResponse{
+    int64 userId = 1;
+    repeated PortImages images = 2;
+}
