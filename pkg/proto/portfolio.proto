@@ -59,7 +59,7 @@ message FindPortfolioByOwnerIDRequest{
 }
 
 message FindPortfolioByOwnerIDResponse{
-  Portfolio portfolio = 1;
+  repeated Portfolio portfolio = 1;
 }
 
 // Create Portfolio
