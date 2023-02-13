@@ -22,19 +22,27 @@ type OpenSearchDocumentAble interface {
 	GetID() string
 }
 
-type OpenSearchRepository[T OpenSearchDocumentAble] struct {
+type OpenSearchRepository[T OpenSearchDocumentAble] interface {
+	CreateIndex(indexName string, indexBody []byte) error
+	Insert(indexName string, docID string, doc any) error
+	InsertBulk(indexName string, contentList []T) error
+	Search(indexName string, req *map[string]interface{}, result *map[string]interface{}, meta *PaginationMetadata) error
+	Suggest(indexName string, req *map[string]interface{}, result *map[string]interface{}) error
+}
+
+type openSearchRepository[T OpenSearchDocumentAble] struct {
 	opensearchClient *opensearch.Client
 	logger           *Logger
 }
 
-func NewOpenSearchRepository[T OpenSearchDocumentAble](logger Logger, client *opensearch.Client) *OpenSearchRepository[T] {
-	return &OpenSearchRepository[T]{
+func NewOpenSearchRepository[T OpenSearchDocumentAble](logger Logger, client *opensearch.Client) OpenSearchRepository[T] {
+	return &openSearchRepository[T]{
 		opensearchClient: client,
 		logger:           &logger,
 	}
 }
 
-func (r *OpenSearchRepository[T]) CreateIndex(indexName string, indexBody []byte) error {
+func (r *openSearchRepository[T]) CreateIndex(indexName string, indexBody []byte) error {
 	res, err := r.opensearchClient.Indices.Create(
 		indexName,
 		r.opensearchClient.Indices.Create.WithBody(bytes.NewReader(indexBody)),
@@ -50,7 +58,7 @@ func (r *OpenSearchRepository[T]) CreateIndex(indexName string, indexBody []byte
 	return nil
 }
 
-func (r *OpenSearchRepository[T]) Search(indexName string, req *map[string]interface{}, result *map[string]interface{}, meta *PaginationMetadata) error {
+func (r *openSearchRepository[T]) Search(indexName string, req *map[string]interface{}, result *map[string]interface{}, meta *PaginationMetadata) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -102,7 +110,7 @@ func (r *OpenSearchRepository[T]) Search(indexName string, req *map[string]inter
 	return nil
 }
 
-func (r *OpenSearchRepository[T]) Suggest(indexName string, req *map[string]interface{}, result *map[string]interface{}) error {
+func (r *openSearchRepository[T]) Suggest(indexName string, req *map[string]interface{}, result *map[string]interface{}) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -155,7 +163,7 @@ func (r *OpenSearchRepository[T]) Suggest(indexName string, req *map[string]inte
 	return nil
 }
 
-func (r *OpenSearchRepository[T]) Insert(indexName string, docID string, doc any) error {
+func (r *openSearchRepository[T]) Insert(indexName string, docID string, doc any) error {
 	if _, err := r.opensearchClient.Create(indexName, docID, opensearchutil.NewJSONReader(doc)); err != nil {
 		r.logger.
 			Error(err).
@@ -175,7 +183,7 @@ func (r *OpenSearchRepository[T]) Insert(indexName string, docID string, doc any
 	return nil
 }
 
-func (r *OpenSearchRepository[T]) InsertBulk(indexName string, contentList []T) error {
+func (r *openSearchRepository[T]) InsertBulk(indexName string, contentList []T) error {
 	// Initialize indexer
 	indexer, err := opensearchutil.NewBulkIndexer(opensearchutil.BulkIndexerConfig{
 		Client: r.opensearchClient,
