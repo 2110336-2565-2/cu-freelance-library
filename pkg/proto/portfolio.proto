@@ -55,11 +55,12 @@ message FindOnePortfolioResponse{
 // Find By OwnerID Portfolio
 
 message FindPortfolioByOwnerIDRequest{
-  string id = 1;
+  common.PaginationQuery query = 1;
+  string id = 2;
 }
 
 message FindPortfolioByOwnerIDResponse{
-  repeated Portfolio portfolio = 1;
+  PortfolioPagination portfolio = 1;
 }
 
 // Create Portfolio
