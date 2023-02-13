@@ -25,7 +25,7 @@ func Pagination[T Entity](value *[]T, meta *PaginationMetadata, db *gorm.DB) fun
 func FindOneByID[T Entity](id string, entity T) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.
-			First(entity, "id = ?", id)
+			First(&entity, "id = ?", id)
 	}
 }
 
@@ -59,4 +59,66 @@ func DeleteWithoutResult[T Entity](id string, entity T) func(db *gorm.DB) *gorm.
 		return db.
 			Delete(&entity, "id = ?", id)
 	}
+}
+
+type GormRepository[T Entity] interface {
+	FindAll(metadata *PaginationMetadata, entities *[]T, scope ...func(db *gorm.DB) *gorm.DB) error
+	FindOne(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error
+	Create(entity T, scope ...func(db *gorm.DB) *gorm.DB) error
+	Update(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error
+	Delete(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error
+}
+
+type gormRepository[T Entity] struct {
+	db *gorm.DB
+}
+
+func NewGormRepository[T Entity](db *gorm.DB) GormRepository[T] {
+	return &gormRepository[T]{
+		db: db,
+	}
+}
+
+func (r *gormRepository[T]) FindAll(metadata *PaginationMetadata, entities *[]T, scope ...func(db *gorm.DB) *gorm.DB) error {
+	if err := r.db.
+		Scopes(scope...).
+		Scopes(Pagination[T](entities, metadata, r.db)).
+		Find(&entities).
+		Error; err != nil {
+		return err
+	}
+
+	metadata.ItemCount = len(*entities)
+	return nil
+}
+
+func (r *gormRepository[T]) FindOne(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error {
+	return r.db.
+		Scopes(scope...).
+		First(entity, "id = ?", id).
+		Error
+}
+
+func (r *gormRepository[T]) Create(entity T, scope ...func(db *gorm.DB) *gorm.DB) error {
+	return r.db.
+		Scopes(scope...).
+		Create(entity).
+		Error
+}
+
+func (r *gormRepository[T]) Update(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error {
+	return r.db.
+		Scopes(scope...).
+		Where(id, "id = ?", id).
+		Updates(&entity).
+		First(&entity, "id = ?", id).
+		Error
+}
+
+func (r *gormRepository[T]) Delete(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error {
+	return r.db.
+		Scopes(scope...).
+		First(&entity, "id = ?", id).
+		Delete(&entity).
+		Error
 }
