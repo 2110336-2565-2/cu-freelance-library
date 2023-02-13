@@ -57,6 +57,7 @@ message FindOnePortfolioResponse{
 message FindPortfolioByOwnerIDRequest{
   common.PaginationQuery query = 1;
   string id = 2;
+  bool isOwner = 3;
 }
 
 message FindPortfolioByOwnerIDResponse{

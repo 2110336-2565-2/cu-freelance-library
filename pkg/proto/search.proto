@@ -16,8 +16,8 @@ service SearchService {
 
 message PortfolioFilter{
   string keyword = 1;
-  string category = 2;
-  string faculty = 3;
+  repeated string category = 2;
+  repeated string faculty = 3;
   uint32 price = 4;
   uint32 duration = 5;
 }
