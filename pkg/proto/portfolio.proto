@@ -46,6 +46,7 @@ message FindAllPortfolioResponse{
 
 message FindOnePortfolioRequest{
   string id = 1;
+  bool is_owner = 2;
 }
 
 message FindOnePortfolioResponse{
@@ -57,7 +58,7 @@ message FindOnePortfolioResponse{
 message FindPortfolioByOwnerIDRequest{
   common.PaginationQuery query = 1;
   string id = 2;
-  bool isOwner = 3;
+  bool is_owner = 3;
 }
 
 message FindPortfolioByOwnerIDResponse{
