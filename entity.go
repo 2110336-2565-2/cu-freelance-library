@@ -35,8 +35,8 @@ func (p *PaginationMetadata) GetOffset() int {
 }
 
 func (p *PaginationMetadata) GetItemPerPage() int {
-	if p.ItemsPerPage < 10 {
-		p.ItemsPerPage = 10
+	if p.ItemsPerPage < 1 {
+		p.ItemsPerPage = 1
 	}
 	if p.ItemsPerPage > 100 {
 		p.ItemsPerPage = 100
