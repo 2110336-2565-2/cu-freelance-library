@@ -9,9 +9,11 @@ type Entity interface {
 	TableName() string
 }
 
-func Pagination[T Entity](value *[]T, meta *PaginationMetadata, db *gorm.DB) func(db *gorm.DB) *gorm.DB {
+func Pagination[T Entity](value *[]T, meta *PaginationMetadata, db *gorm.DB, scopes ...func(db *gorm.DB) *gorm.DB) func(db *gorm.DB) *gorm.DB {
 	var totalItems int64
-	db.Model(&value).Count(&totalItems)
+	db.Model(&value).
+		Scopes(scopes...).
+		Count(&totalItems)
 
 	meta.TotalItem = int(totalItems)
 	totalPages := math.Ceil(float64(totalItems) / float64(meta.GetItemPerPage()))
@@ -62,7 +64,7 @@ func DeleteWithoutResult[T Entity](id string, entity T) func(db *gorm.DB) *gorm.
 }
 
 type GormRepository[T Entity] interface {
-	FindAll(metadata *PaginationMetadata, entities *[]T, scope ...func(db *gorm.DB) *gorm.DB) error
+	FindAll(metadata *PaginationMetadata, entities *[]T) error
 	FindOne(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error
 	Create(entity T, scope ...func(db *gorm.DB) *gorm.DB) error
 	Update(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error
@@ -84,9 +86,8 @@ func (r *gormRepository[T]) GetDB() *gorm.DB {
 	return r.db
 }
 
-func (r *gormRepository[T]) FindAll(metadata *PaginationMetadata, entities *[]T, scope ...func(db *gorm.DB) *gorm.DB) error {
+func (r *gormRepository[T]) FindAll(metadata *PaginationMetadata, entities *[]T) error {
 	if err := r.db.
-		Scopes(scope...).
 		Scopes(Pagination[T](entities, metadata, r.db)).
 		Find(&entities).
 		Error; err != nil {
