@@ -52,6 +52,12 @@ func (p *PaginationMetadata) GetCurrentPage() int {
 	return p.CurrentPage
 }
 
+func (p *PaginationMetadata) CalItemPerPage() {
+	if p.ItemCount < p.ItemsPerPage {
+		p.ItemsPerPage = p.ItemCount
+	}
+}
+
 func (p *PaginationMetadata) ToProto() *pb.PaginationMetadata {
 	return &pb.PaginationMetadata{
 		TotalItem:    int64(p.TotalItem),
