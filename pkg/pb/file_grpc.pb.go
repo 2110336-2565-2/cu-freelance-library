@@ -25,7 +25,7 @@ type FileServiceClient interface {
 	UploadAvatarImage(ctx context.Context, in *UploadAvatarImageRequest, opts ...grpc.CallOption) (*UploadAvatarImageResponse, error)
 	UploadPortfolioImage(ctx context.Context, in *UploadPortfolioImageRequest, opts ...grpc.CallOption) (*UploadPortfolioImageResponse, error)
 	GetUserAvatar(ctx context.Context, in *GetUserAvatarRequest, opts ...grpc.CallOption) (*UserAvatarResponse, error)
-	GetSinglePortImage(ctx context.Context, in *GetSinglePortImageRequest, opts ...grpc.CallOption) (*SinglePortImageResponse, error)
+	GetPortThumbnail(ctx context.Context, in *GetPortThumbnailRequest, opts ...grpc.CallOption) (*PortThumbnailResponse, error)
 	GetAllPortImage(ctx context.Context, in *GetAllPortImageRequest, opts ...grpc.CallOption) (*AllPortImageResponse, error)
 }
 
@@ -64,9 +64,9 @@ func (c *fileServiceClient) GetUserAvatar(ctx context.Context, in *GetUserAvatar
 	return out, nil
 }
 
-func (c *fileServiceClient) GetSinglePortImage(ctx context.Context, in *GetSinglePortImageRequest, opts ...grpc.CallOption) (*SinglePortImageResponse, error) {
-	out := new(SinglePortImageResponse)
-	err := c.cc.Invoke(ctx, "/file.FileService/GetSinglePortImage", in, out, opts...)
+func (c *fileServiceClient) GetPortThumbnail(ctx context.Context, in *GetPortThumbnailRequest, opts ...grpc.CallOption) (*PortThumbnailResponse, error) {
+	out := new(PortThumbnailResponse)
+	err := c.cc.Invoke(ctx, "/file.FileService/GetPortThumbnail", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ type FileServiceServer interface {
 	UploadAvatarImage(context.Context, *UploadAvatarImageRequest) (*UploadAvatarImageResponse, error)
 	UploadPortfolioImage(context.Context, *UploadPortfolioImageRequest) (*UploadPortfolioImageResponse, error)
 	GetUserAvatar(context.Context, *GetUserAvatarRequest) (*UserAvatarResponse, error)
-	GetSinglePortImage(context.Context, *GetSinglePortImageRequest) (*SinglePortImageResponse, error)
+	GetPortThumbnail(context.Context, *GetPortThumbnailRequest) (*PortThumbnailResponse, error)
 	GetAllPortImage(context.Context, *GetAllPortImageRequest) (*AllPortImageResponse, error)
 }
 
@@ -106,8 +106,8 @@ func (UnimplementedFileServiceServer) UploadPortfolioImage(context.Context, *Upl
 func (UnimplementedFileServiceServer) GetUserAvatar(context.Context, *GetUserAvatarRequest) (*UserAvatarResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserAvatar not implemented")
 }
-func (UnimplementedFileServiceServer) GetSinglePortImage(context.Context, *GetSinglePortImageRequest) (*SinglePortImageResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSinglePortImage not implemented")
+func (UnimplementedFileServiceServer) GetPortThumbnail(context.Context, *GetPortThumbnailRequest) (*PortThumbnailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPortThumbnail not implemented")
 }
 func (UnimplementedFileServiceServer) GetAllPortImage(context.Context, *GetAllPortImageRequest) (*AllPortImageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllPortImage not implemented")
@@ -178,20 +178,20 @@ func _FileService_GetUserAvatar_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_GetSinglePortImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSinglePortImageRequest)
+func _FileService_GetPortThumbnail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPortThumbnailRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).GetSinglePortImage(ctx, in)
+		return srv.(FileServiceServer).GetPortThumbnail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/file.FileService/GetSinglePortImage",
+		FullMethod: "/file.FileService/GetPortThumbnail",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).GetSinglePortImage(ctx, req.(*GetSinglePortImageRequest))
+		return srv.(FileServiceServer).GetPortThumbnail(ctx, req.(*GetPortThumbnailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -234,8 +234,8 @@ var FileService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _FileService_GetUserAvatar_Handler,
 		},
 		{
-			MethodName: "GetSinglePortImage",
-			Handler:    _FileService_GetSinglePortImage_Handler,
+			MethodName: "GetPortThumbnail",
+			Handler:    _FileService_GetPortThumbnail_Handler,
 		},
 		{
 			MethodName: "GetAllPortImage",
