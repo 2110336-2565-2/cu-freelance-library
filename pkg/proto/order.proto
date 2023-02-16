@@ -16,7 +16,7 @@ service OrderService {
 
 
 message Order{
-    int32 id = 1;
+    string id = 1;
     string title = 2;
     string description = 3;
     string status = 4;
@@ -27,7 +27,7 @@ message Order{
 }
 
 message GetOrderPaginateRequest{
-    int32 userID = 1;
+    string userID = 1;
     int32 pageSize = 2;
     int32 page = 3;
 }
@@ -38,8 +38,8 @@ message OrderPaginateResponse{
 }
 
 message GetOrderByIDRequest{
-    int32 userID = 1;
-    int32 orderID = 2;
+    string userID = 1;
+    string orderID = 2;
 }
 
 message GetOrderByIDResponse{
@@ -47,21 +47,22 @@ message GetOrderByIDResponse{
 }
 
 message CreateOrderRequest{
-    int32 userID = 1;
+    string userID = 1;
     string title = 2;
     string description = 3;
     string status = 4;
-    int64 price = 5;
+    int32 price = 5;
     string due_date = 6;
 }
 
 message CreateOrderResponse{
     Order order = 1;
+    bool is_success = 2;
 }
 
 message UpdateOrderRequest{
-    int32 userID = 1;
-    int32 orderID = 2;
+    string userID = 1;
+    string orderID = 2;
     string title = 3;
     string description = 4;
     string status = 5;
@@ -71,14 +72,15 @@ message UpdateOrderRequest{
 
 message UpdateOrderResponse{
     Order order = 1;
+    bool is_success = 2;
 };
 
 message DeleteOrderRequest{
-    int32 userID = 1;
-    int32 orderID = 2;
+    string userID = 1;
+    string orderID = 2;
 }
 
 message DeleteOrderResponse{
-
+    bool is_success = 1;
 }
 
