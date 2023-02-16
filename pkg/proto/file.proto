@@ -8,7 +8,7 @@ service FileService {
     rpc UploadAvatarImage(UploadAvatarImageRequest) returns (UploadAvatarImageResponse);
     rpc UploadPortfolioImage(UploadPortfolioImageRequest) returns (UploadPortfolioImageResponse);
     rpc GetUserAvatar(GetUserAvatarRequest) returns (UserAvatarResponse);
-    rpc GetSinglePortImage(GetSinglePortImageRequest) returns (SinglePortImageResponse);
+    rpc GetPortThumbnail(GetPortThumbnailRequest) returns (PortThumbnailResponse);
     rpc GetAllPortImage(GetAllPortImageRequest) returns (AllPortImageResponse);
 }
 
@@ -19,57 +19,59 @@ message File{
 }
 
 message UploadAvatarImageRequest{
-    int32 userId = 1;
+    string userId = 1;
     File file = 2;
 }
 
 message UploadAvatarImageResponse{
-    int32 userId = 1;
+    string userId = 1;
     string url = 2;
 }
 
 message UploadPortfolioImageRequest{
-    int32 userId = 1;
-    int32 portId = 2;
+    string userId = 1;
+    string portId = 2;
     File file = 3;
 }
 
 message UploadPortfolioImageResponse{
-    int32 userId = 1;
-    int32 portId = 2;
+    string userId = 1;
+    string portId = 2;
     string url = 3; 
 }
 
 message GetUserAvatarRequest{
-    int32 userId = 1;
+    string userId = 1;
 }
 
 message UserAvatarResponse{
-    int32 userId = 1;
+    string userId = 1;
     string url = 2;
 }
 
-message GetSinglePortImageRequest{
-    int32 userId = 1;
-    int32 portId = 2;
+message GetPortThumbnailRequest{
+    string userId = 1;
+    string portId = 2;
 }
 
-message SinglePortImageResponse{
-    int32 userId = 1;
-    int32 portId = 2;
+message PortThumbnailResponse{
+    string userId = 1;
+    string portId = 2;
     string url = 3;
 }
 
 message GetAllPortImageRequest{
-    int32 userId = 1;
+    string userId = 1;
+    string portId = 2;
 }
 
 message PortImages{
-    int32 portId = 1;
+    string imageId = 1;
     string url = 2;
 }
 
 message AllPortImageResponse{
-    int32 userId = 1;
-    repeated PortImages images = 2;
+    string userId = 1;
+    string portId = 2;
+    repeated PortImages images = 3;
 }
