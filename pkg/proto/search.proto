@@ -17,8 +17,10 @@ service SearchService {
 message PortfolioFilter{
   repeated string category = 2;
   repeated string faculty = 3;
-  uint32 price = 4;
-  uint32 duration = 5;
+  uint32 min_price = 4;
+  uint32 max_price = 5;
+  uint32 min_duration = 6;
+  uint32 max_duration = 7;
 }
 
 message SearchPortfolioRequest{
