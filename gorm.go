@@ -64,7 +64,7 @@ func DeleteWithoutResult[T Entity](id string, entity T) func(db *gorm.DB) *gorm.
 }
 
 type GormRepository[T Entity] interface {
-	FindAll(metadata *PaginationMetadata, entities *[]T) error
+	FindAll(metadata *PaginationMetadata, entities *[]T, scope ...func(db *gorm.DB) *gorm.DB) error
 	FindOne(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error
 	Create(entity T, scope ...func(db *gorm.DB) *gorm.DB) error
 	Update(id string, entity T, scope ...func(db *gorm.DB) *gorm.DB) error
@@ -86,9 +86,9 @@ func (r *gormRepository[T]) GetDB() *gorm.DB {
 	return r.db
 }
 
-func (r *gormRepository[T]) FindAll(metadata *PaginationMetadata, entities *[]T) error {
+func (r *gormRepository[T]) FindAll(metadata *PaginationMetadata, entities *[]T, scope ...func(db *gorm.DB) *gorm.DB) error {
 	if err := r.db.
-		Scopes(Pagination[T](entities, metadata, r.db)).
+		Scopes(Pagination[T](entities, metadata, r.db, scope...)).
 		Find(&entities).
 		Error; err != nil {
 		return err
