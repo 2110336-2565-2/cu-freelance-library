@@ -1,7 +1,6 @@
 package gosdk
 
 import (
-	"github.com/pemistahl/lingua-go"
 	"github.com/pkg/errors"
 	"strconv"
 	"strings"
@@ -9,32 +8,6 @@ import (
 
 	"github.com/google/uuid"
 )
-
-type LangUtil interface {
-	CheckLang(string) lingua.Language
-}
-
-type langUtil struct {
-	detector lingua.LanguageDetector
-}
-
-func NewLangUtil(languages []lingua.Language) LangUtil {
-	detector := lingua.NewLanguageDetectorBuilder().
-		FromLanguages(languages...).
-		Build()
-
-	return &langUtil{
-		detector: detector,
-	}
-}
-
-func (u *langUtil) CheckLang(text string) lingua.Language {
-	if language, exists := u.detector.DetectLanguageOf(text); exists {
-		return language
-	}
-
-	return lingua.Unknown
-}
 
 func IsExisted(e map[string]struct{}, key string) bool {
 	_, ok := e[key]
