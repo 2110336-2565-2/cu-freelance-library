@@ -15,7 +15,6 @@ service SearchService {
 // Search Portfolio
 
 message PortfolioFilter{
-  string keyword = 1;
   repeated string category = 2;
   repeated string faculty = 3;
   uint32 price = 4;
@@ -23,13 +22,13 @@ message PortfolioFilter{
 }
 
 message SearchPortfolioRequest{
-  string Keyword = 1;
-  PortfolioFilter Filter = 2;
-  common.PaginationQuery PaginationQuery = 8;
+  string keyword = 1;
+  PortfolioFilter filter = 2;
+  common.PaginationQuery pagination_query = 8;
 }
 
 message SearchPortfolioResponse{
-  portfolio.PortfolioPagination Pagination = 1;
+  portfolio.PortfolioPagination pagination = 1;
 }
 
 // Search Freelance
@@ -39,11 +38,11 @@ message FreelanceFilter{
 }
 
 message SearchFreelanceRequest{
-  string Keyword = 1;
-  FreelanceFilter Filter = 2;
-  common.PaginationQuery PaginationQuery = 8;
+  string keyword = 1;
+  FreelanceFilter filter = 2;
+  common.PaginationQuery pagination_query = 8;
 }
 
 message SearchFreelanceResponse{
-  portfolio.PortfolioPagination Pagination = 1;
+  portfolio.PortfolioPagination pagination = 1;
 }
