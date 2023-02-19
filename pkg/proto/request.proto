@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package request;
+
+option go_package = "pkg/pb;pb";
+
+import "common.proto";
+
+service RequestService{
+    rpc GetOneRequest(GetOneRequestInput) returns (GetOneRequestResponse);
+    rpc GetRequestsByUser(GetRequestsByUserInput) returns (GetRequestsByUserResponse);
+    rpc GetRequestsByStatus(GetRequestsByStatusInput) returns (GetRequestsByStatusResponse);
+    rpc GetRequestsByOrderTemplate(GetRequestsByOrderTemplateInput) returns (GetRequestsByOrderTemplateResponse);
+    rpc CreateRequest(CreateRequestInput) returns (CreateRequestResponse);
+    rpc UpdateRequest(UpdateRequestInput) returns (UpdateRequestResponse);
+    rpc DeleteRequest(DeleteRequestInput) returns (DeleteRequestResponse);
+}
+
+message Request{
+    string id = 1;
+    string freelance_id = 2;
+    string customer_id = 3;
+    string order_template_id = 4;
+    string title = 5;
+    string description = 6;
+    string status = 7;
+    int32 price = 8;
+    int32 duration = 9;
+    string tel = 10;
+    string email = 11;
+}
+
+message GetOneRequestInput{
+    string id = 1;
+}
+
+message GetOneRequestResponse{
+    Request request = 1;
+}
+
+message GetRequestsByUserInput{
+    string user_id = 1;
+    int32 limit = 2;
+    int32 page = 3;
+}
+
+message GetRequestsByUserResponse{
+    repeated Request requests = 1;
+    common.PaginationMetadata meta = 2;
+}
+
+message GetRequestsByStatusInput{
+    string user_id = 1;
+    int32 limti = 2;
+    int32 page = 3;
+    int32 status = 4;
+}
+
+message GetRequestsByStatusResponse{
+    repeated Request requests = 1;
+    common.PaginationMetadata meta = 2;
+}
+
+message GetRequestsByOrderTemplateInput{
+    string user_id = 1;
+    int32 limti = 2;
+    int32 page = 3;
+    string order_template_id = 4; 
+}
+
+message GetRequestsByOrderTemplateResponse{
+    repeated Request requests = 1;
+    common.PaginationMetadata meta = 2;
+}
+
+message CreateRequestInput{
+    string freelance_id = 1;
+    string customer_id = 2;
+    string order_template_id = 3;
+    string title = 4;
+    string description = 5;
+    string status = 6;
+    int32 price = 7;
+    int32 duration = 8;
+    string tel = 9;
+    string email = 10;
+}
+
+message CreateRequestResponse{
+    Request request = 1;
+    bool is_success = 2;
+}
+
+message UpdateRequestInput{
+    string title = 1;
+    string description = 2;
+    string status = 3;
+    int32 price = 4;
+    int32 duration = 5;
+    string tel = 6;
+    string email = 7;
+}
+
+message UpdateRequestResponse{
+    Request request = 1;
+    bool is_success = 2;
+}
+
+message DeleteRequestInput{
+    string id = 1;
+}
+
+message DeleteRequestResponse{
+    bool is_success = 1;
+}

@@ -78,10 +78,10 @@ message UpdateOrderRequest{
 message UpdateOrderResponse{
     Order order = 1;
     bool is_success = 2;
-};
+}
 
 message DeleteOrderRequest{
-    string user_id = 1;
+    string id = 1;
 }
 
 message DeleteOrderResponse{
