@@ -17,18 +17,20 @@ service OrderService {
 
 message Order{
     string id = 1;
-    string title = 2;
-    string description = 3;
-    string status = 4;
-    string created_at = 5;
-    string updated_at = 6;
+    string freelance_id = 2;
+    string customer_id = 3;
+    string title = 4;
+    string description = 5;
+    string status = 6;
     int32 price = 7;
-    string due_date = 8;
+    int32 duration = 8;
+    string tel = 9;
+    string email = 10;
 }
 
 message GetOrderPaginateRequest{
-    string userID = 1;
-    int32 pageSize = 2;
+    string user_id = 1;
+    int32 limit = 2;
     int32 page = 3;
 }
 
@@ -38,8 +40,7 @@ message OrderPaginateResponse{
 }
 
 message GetOrderByIDRequest{
-    string userID = 1;
-    string orderID = 2;
+    string id = 1;
 }
 
 message GetOrderByIDResponse{
@@ -47,12 +48,15 @@ message GetOrderByIDResponse{
 }
 
 message CreateOrderRequest{
-    string userID = 1;
-    string title = 2;
-    string description = 3;
-    string status = 4;
-    int32 price = 5;
-    string due_date = 6;
+    string freelance_id = 1;
+    string customer_id = 2;
+    string title = 3;
+    string description = 4;
+    string status = 5;
+    int32 price = 6;
+    int32 duration = 7;
+    string tel = 8;
+    string email = 9;
 }
 
 message CreateOrderResponse{
@@ -61,13 +65,14 @@ message CreateOrderResponse{
 }
 
 message UpdateOrderRequest{
-    string userID = 1;
-    string orderID = 2;
-    string title = 3;
-    string description = 4;
-    string status = 5;
-    int32 price = 6;
-    string due_date = 7;
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    string status = 4;
+    int32 price = 5;
+    int32 duration = 6;
+    string tel = 7;
+    string email = 8;
 }
 
 message UpdateOrderResponse{
@@ -76,8 +81,7 @@ message UpdateOrderResponse{
 };
 
 message DeleteOrderRequest{
-    string userID = 1;
-    string orderID = 2;
+    string user_id = 1;
 }
 
 message DeleteOrderResponse{
