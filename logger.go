@@ -4,6 +4,7 @@ import (
 	"github.com/2110336-2565-2/cu-freelance-library/pkg/log"
 	"github.com/2110336-2565-2/cu-freelance-library/pkg/sentry"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 	"time"
 )
 
@@ -17,7 +18,10 @@ type Logger struct {
 }
 
 func NewLogger(serviceName string) *Logger {
-	lg, _ := zap.NewProduction()
+	config := zap.NewProductionConfig()
+	config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339)
+
+	lg, _ := config.Build()
 
 	keyword := map[string]any{}
 
