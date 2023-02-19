@@ -19,7 +19,7 @@ type Logger struct {
 
 func NewLogger(serviceName string) *Logger {
 	config := zap.NewProductionConfig()
-	config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339)
+	config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339Nano)
 	config.EncoderConfig.TimeKey = "time"
 
 	lg, _ := config.Build()
