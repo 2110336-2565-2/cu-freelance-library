@@ -5,6 +5,7 @@ package orderTemplate;
 option go_package = "pkg/pb;pb";
 
 import "common.proto";
+import "request.proto";
 
 service OrderTemplateService {
     rpc GetOrderTemplatePaginate(GetOrderTemplatePaginateRequest) returns (OrderTemplatePaginateResponse);
@@ -24,6 +25,7 @@ message OrderTemplate{
     int32 duration = 6;
     string tel = 7;
     string email = 8;
+    repeated request.Request requests = 9;
 }
 
 message GetOrderTemplatePaginateRequest{
