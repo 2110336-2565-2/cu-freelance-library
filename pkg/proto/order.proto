@@ -52,11 +52,10 @@ message CreateOrderRequest{
     string customer_id = 2;
     string title = 3;
     string description = 4;
-    string status = 5;
-    int32 price = 6;
-    int32 duration = 7;
-    string tel = 8;
-    string email = 9;
+    int32 price = 5;
+    int32 duration = 6;
+    string tel = 7;
+    string email = 8;
 }
 
 message CreateOrderResponse{
@@ -68,7 +67,7 @@ message UpdateOrderRequest{
     string id = 1;
     string title = 2;
     string description = 3;
-    string status = 4;
+    int32 status = 4;
     int32 price = 5;
     int32 duration = 6;
     string tel = 7;

@@ -51,7 +51,7 @@ message GetRequestsByUserResponse{
 
 message GetRequestsByStatusInput{
     string user_id = 1;
-    int32 limti = 2;
+    int32 limit = 2;
     int32 page = 3;
     int32 status = 4;
 }
@@ -79,11 +79,10 @@ message CreateRequestInput{
     string order_template_id = 3;
     string title = 4;
     string description = 5;
-    string status = 6;
-    int32 price = 7;
-    int32 duration = 8;
-    string tel = 9;
-    string email = 10;
+    int32 price = 6;
+    int32 duration = 7;
+    string tel = 8;
+    string email = 9;
 }
 
 message CreateRequestResponse{
@@ -92,9 +91,9 @@ message CreateRequestResponse{
 }
 
 message UpdateRequestInput{
-    string title = 1;
-    string description = 2;
-    string status = 3;
+    string id = 1;
+    string title = 2;
+    string description = 3;
     int32 price = 4;
     int32 duration = 5;
     string tel = 6;
