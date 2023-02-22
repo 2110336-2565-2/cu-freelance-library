@@ -8,9 +8,10 @@ import (
 	"time"
 )
 
+var sentryService sentry.Sentry
+
 type Logger interface {
 	SetName(name string)
-	SetSentryDSN(dsn string) error
 	Fatal(err error) Logger
 	Error(err error) Logger
 	Warn() Logger
@@ -26,7 +27,6 @@ type logger struct {
 	serviceName string
 	err         error
 	*zap.Logger
-	sentryService sentry.Sentry
 }
 
 func NewLogger(serviceName string) Logger {
@@ -44,16 +44,15 @@ func NewLogger(serviceName string) Logger {
 		serviceName,
 		nil,
 		lg,
-		nil,
 	}
 }
-func (s *logger) SetSentryDSN(dsn string) error {
-	sentrySrv, err := sentry.NewService(dsn)
+func SetSentryDSN(newDSN string) error {
+	sentrySrv, err := sentry.NewService(newDSN)
 	if err != nil {
 		return err
 	}
 
-	s.sentryService = sentrySrv
+	sentryService = sentrySrv
 	return nil
 }
 
@@ -107,13 +106,13 @@ func (s *logger) Msg(msg string) {
 	case log.Warn:
 		s.Logger.Warn(msg, keywordList...)
 	case log.Error:
-		if s.sentryService != nil {
-			s.sentryService.CaptureException(s.err)
+		if sentryService != nil {
+			sentryService.CaptureException(s.err)
 		}
 		s.Logger.Error(msg, keywordList...)
 	case log.Fatal:
-		if s.sentryService != nil {
-			s.sentryService.CaptureException(s.err)
+		if sentryService != nil {
+			sentryService.CaptureException(s.err)
 		}
 		s.Logger.Fatal(msg, keywordList...)
 	default:
