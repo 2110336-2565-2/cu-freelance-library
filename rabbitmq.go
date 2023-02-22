@@ -17,7 +17,9 @@ type RabbitMQ interface {
 	Publish(exchangeName string, topic string, message any) error
 }
 
-func NewRabbitMQ(logger Logger, conn *amqp.Connection) (RabbitMQ, error) {
+func NewRabbitMQ(conn *amqp.Connection) (RabbitMQ, error) {
+	logger := NewLogger("rabbitmq")
+
 	ch, err := conn.Channel()
 	if err != nil {
 		logger.
@@ -105,7 +107,7 @@ func (r *rabbitmq) CreateQueue(name string, durable bool, autoDelete bool, exclu
 }
 
 func (r *rabbitmq) CreateExchange(name string, kind string, durable bool, autoDelete bool, internal bool, noWait bool, args map[string]interface{}) error {
-	r.logger.SetName(name)
+	r.logger.SetName(name + "-rabbitmq")
 
 	if err := r.channel.ExchangeDeclare(name, kind, durable, autoDelete, internal, noWait, args); err != nil {
 		r.logger.
