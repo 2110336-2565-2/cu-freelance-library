@@ -9,7 +9,7 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	gormLogger "gorm.io/gorm/logger"
 	"net/http"
 	"os"
 	"strconv"
@@ -70,7 +70,7 @@ func InitPostgresDatabase(conf *PostgresDatabaseConfig, isDebug bool) (db *gorm.
 	gormConf := &gorm.Config{}
 
 	if !isDebug {
-		gormConf.Logger = logger.Default.LogMode(logger.Silent)
+		gormConf.Logger = gormLogger.Default.LogMode(gormLogger.Silent)
 	}
 
 	db, err = gorm.Open(postgres.Open(dsn), gormConf)

@@ -32,13 +32,13 @@ type OpenSearchRepository[T OpenSearchDocumentAble] interface {
 
 type openSearchRepository[T OpenSearchDocumentAble] struct {
 	opensearchClient *opensearch.Client
-	logger           *Logger
+	logger           Logger
 }
 
 func NewOpenSearchRepository[T OpenSearchDocumentAble](logger Logger, client *opensearch.Client) OpenSearchRepository[T] {
 	return &openSearchRepository[T]{
 		opensearchClient: client,
-		logger:           &logger,
+		logger:           logger,
 	}
 }
 
@@ -224,7 +224,7 @@ func (r *openSearchRepository[T]) InsertBulk(indexName string, contentList []T) 
 	return nil
 }
 
-func insertBulk[T OpenSearchDocumentAble](indexer opensearchutil.BulkIndexer, logger *Logger, indexName string, content T) {
+func insertBulk[T OpenSearchDocumentAble](indexer opensearchutil.BulkIndexer, logger Logger, indexName string, content T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
