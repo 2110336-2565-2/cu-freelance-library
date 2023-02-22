@@ -8,7 +8,19 @@ import (
 	"time"
 )
 
-type Logger struct {
+type Logger interface {
+	SetName(name string)
+	SetSentryDSN(dsn string) error
+	Fatal(err error) Logger
+	Error(err error) Logger
+	Warn() Logger
+	Info() Logger
+	Debug() Logger
+	Keyword(key string, val any) Logger
+	Msg(msg string)
+}
+
+type logger struct {
 	keyword     map[string]any
 	level       log.Level
 	serviceName string
@@ -17,7 +29,7 @@ type Logger struct {
 	sentryService sentry.Sentry
 }
 
-func NewLogger(serviceName string) *Logger {
+func NewLogger(serviceName string) Logger {
 	config := zap.NewProductionConfig()
 	config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339Nano)
 	config.EncoderConfig.TimeKey = "time"
@@ -26,7 +38,7 @@ func NewLogger(serviceName string) *Logger {
 
 	keyword := map[string]any{}
 
-	return &Logger{
+	return &logger{
 		keyword,
 		log.Unknown,
 		serviceName,
@@ -35,7 +47,7 @@ func NewLogger(serviceName string) *Logger {
 		nil,
 	}
 }
-func (s *Logger) SetSentryDSN(dsn string) error {
+func (s *logger) SetSentryDSN(dsn string) error {
 	sentrySrv, err := sentry.NewService(dsn)
 	if err != nil {
 		return err
@@ -45,43 +57,43 @@ func (s *Logger) SetSentryDSN(dsn string) error {
 	return nil
 }
 
-func (s *Logger) SetName(name string) {
+func (s *logger) SetName(name string) {
 	s.serviceName = name
 }
 
-func (s *Logger) Info() *Logger {
+func (s *logger) Info() Logger {
 	s.level = log.Info
 	return s
 }
 
-func (s *Logger) Error(err error) *Logger {
+func (s *logger) Error(err error) Logger {
 	s.level = log.Error
 	s.err = err
 	return s
 }
 
-func (s *Logger) Warn() *Logger {
+func (s *logger) Warn() Logger {
 	s.level = log.Warn
 	return s
 }
 
-func (s *Logger) Debug() *Logger {
+func (s *logger) Debug() Logger {
 	s.level = log.Debug
 	return s
 }
 
-func (s *Logger) Fatal(err error) *Logger {
+func (s *logger) Fatal(err error) Logger {
 	s.level = log.Fatal
 	s.err = err
 	return s
 }
 
-func (s *Logger) Keyword(key string, val any) *Logger {
+func (s *logger) Keyword(key string, val any) Logger {
 	s.keyword[key] = val
 	return s
 }
 
-func (s *Logger) Msg(msg string) {
+func (s *logger) Msg(msg string) {
 	defer s.Logger.Sync()
 
 	var keywordList []zap.Field
@@ -112,7 +124,7 @@ func (s *Logger) Msg(msg string) {
 	s.err = nil
 }
 
-func (s *Logger) createKeywordList(keywords *[]zap.Field) {
+func (s *logger) createKeywordList(keywords *[]zap.Field) {
 	*keywords = append(*keywords, zap.String("service", s.serviceName))
 
 	if s.err != nil {
