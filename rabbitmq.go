@@ -17,12 +17,20 @@ type RabbitMQ interface {
 	Publish(exchangeName string, topic string, message any) error
 }
 
-func NewRabbitMQ(logger Logger, conn *amqp.Connection) RabbitMQ {
+func NewRabbitMQ(logger Logger, conn *amqp.Connection) (RabbitMQ, error) {
+	ch, err := conn.Channel()
+	if err != nil {
+		logger.
+			Error(err).
+			Msg("Error when creating channel")
+		return nil, err
+	}
 
 	return &rabbitmq{
-		logger: logger,
-		conn:   conn,
-	}
+		logger:  logger,
+		conn:    conn,
+		channel: ch,
+	}, nil
 }
 
 type rabbitmq struct {
