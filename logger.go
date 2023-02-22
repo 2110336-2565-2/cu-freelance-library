@@ -139,6 +139,8 @@ func (s *logger) createKeywordList(keywords *[]zap.Field) {
 			*keywords = append(*keywords, zap.Int(k, v.(int)))
 		case time.Duration:
 			*keywords = append(*keywords, zap.Duration(k, v.(time.Duration)))
+		case bool:
+			*keywords = append(*keywords, zap.Bool(k, v.(bool)))
 		}
 
 	}
