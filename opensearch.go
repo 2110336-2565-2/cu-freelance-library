@@ -168,14 +168,14 @@ func (r *openSearchRepository[T]) Suggest(indexName string, req *map[string]inte
 	return nil
 }
 
-func (r *openSearchRepository[T]) Insert(indexName string, docID string, doc any) error {
+func (r *openSearchRepository[T]) Insert(indexName string, docID string, doc T) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	req := opensearchapi.IndexRequest{
 		Index:      indexName,
 		DocumentID: docID,
-		Body:       opensearchutil.NewJSONReader(doc),
+		Body:       opensearchutil.NewJSONReader(doc.ToDoc()),
 	}
 
 	res, err := req.Do(ctx, r.opensearchClient)
@@ -250,14 +250,14 @@ func (r *openSearchRepository[T]) InsertBulk(indexName string, contentList []T) 
 	return nil
 }
 
-func (r *openSearchRepository[T]) Update(indexName string, docID string, doc any) error {
+func (r *openSearchRepository[T]) Update(indexName string, docID string, doc T) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	req := opensearchapi.UpdateRequest{
 		Index:      indexName,
 		DocumentID: docID,
-		Body:       opensearchutil.NewJSONReader(doc),
+		Body:       opensearchutil.NewJSONReader(doc.ToDoc()),
 	}
 
 	res, err := req.Do(ctx, r.opensearchClient)
