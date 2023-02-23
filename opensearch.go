@@ -35,7 +35,9 @@ type openSearchRepository[T OpenSearchDocumentAble] struct {
 	logger           Logger
 }
 
-func NewOpenSearchRepository[T OpenSearchDocumentAble](logger Logger, client *opensearch.Client) OpenSearchRepository[T] {
+func NewOpenSearchRepository[T OpenSearchDocumentAble](client *opensearch.Client) OpenSearchRepository[T] {
+	logger := NewLogger("opensearch-repository")
+
 	return &openSearchRepository[T]{
 		opensearchClient: client,
 		logger:           logger,
