@@ -189,7 +189,7 @@ func (r *openSearchRepository[T]) Insert(indexName string, docID string, doc any
 		return err
 	}
 
-	if res.StatusCode != http.StatusOK {
+	if res.StatusCode >= http.StatusBadRequest {
 		r.logger.
 			Error(err).
 			Keyword("action", "insert document").
@@ -271,7 +271,7 @@ func (r *openSearchRepository[T]) Update(indexName string, docID string, doc any
 		return err
 	}
 
-	if res.StatusCode != http.StatusOK {
+	if res.StatusCode >= http.StatusBadRequest {
 		r.logger.
 			Error(err).
 			Keyword("action", "update document").
@@ -311,7 +311,7 @@ func (r *openSearchRepository[T]) Delete(indexName string, docID string) error {
 		return err
 	}
 
-	if res.StatusCode != http.StatusOK {
+	if res.StatusCode >= http.StatusBadRequest {
 		r.logger.
 			Error(err).
 			Keyword("action", "delete document").
