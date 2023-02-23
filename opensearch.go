@@ -9,6 +9,7 @@ import (
 	"github.com/opensearch-project/opensearch-go/opensearchutil"
 	"github.com/pkg/errors"
 	"log"
+	"net/http"
 	"time"
 )
 
@@ -26,6 +27,8 @@ type OpenSearchRepository[T OpenSearchDocumentAble] interface {
 	CreateIndex(indexName string, indexBody []byte) error
 	Insert(indexName string, docID string, doc any) error
 	InsertBulk(indexName string, contentList []T) error
+	Update(indexName string, docID string, doc any) error
+	Delete(indexName string, docID string) error
 	Search(indexName string, req *map[string]interface{}, result *map[string]interface{}, meta *PaginationMetadata) error
 	Suggest(indexName string, req *map[string]interface{}, result *map[string]interface{}) error
 }
@@ -166,14 +169,35 @@ func (r *openSearchRepository[T]) Suggest(indexName string, req *map[string]inte
 }
 
 func (r *openSearchRepository[T]) Insert(indexName string, docID string, doc any) error {
-	if _, err := r.opensearchClient.Create(indexName, docID, opensearchutil.NewJSONReader(doc)); err != nil {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	req := opensearchapi.IndexRequest{
+		Index:      indexName,
+		DocumentID: docID,
+		Body:       opensearchutil.NewJSONReader(doc),
+	}
+
+	res, err := req.Do(ctx, r.opensearchClient)
+	if err != nil {
 		r.logger.
 			Error(err).
-			Keyword("action", "index").
+			Keyword("action", "insert document").
 			Keyword("index_name", indexName).
 			Keyword("doc_id", docID).
 			Msg("Error while create data to opensearch")
 		return err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		r.logger.
+			Error(err).
+			Keyword("action", "insert document").
+			Keyword("index_name", indexName).
+			Keyword("doc_id", docID).
+			Keyword("status_code", res.StatusCode).
+			Msg("Error while create data to opensearch")
+		return errors.New("insert failed")
 	}
 
 	r.logger.
@@ -223,6 +247,87 @@ func (r *openSearchRepository[T]) InsertBulk(indexName string, contentList []T) 
 			Msg("successfully insert bulk documents")
 	}
 
+	return nil
+}
+
+func (r *openSearchRepository[T]) Update(indexName string, docID string, doc any) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	req := opensearchapi.UpdateRequest{
+		Index:      indexName,
+		DocumentID: docID,
+		Body:       opensearchutil.NewJSONReader(doc),
+	}
+
+	res, err := req.Do(ctx, r.opensearchClient)
+	if err != nil {
+		r.logger.
+			Error(err).
+			Keyword("action", "update document").
+			Keyword("index_name", indexName).
+			Keyword("doc_id", docID).
+			Msg("Error while create data to opensearch")
+		return err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		r.logger.
+			Error(err).
+			Keyword("action", "update document").
+			Keyword("index_name", indexName).
+			Keyword("doc_id", docID).
+			Keyword("status_code", res.StatusCode).
+			Msg("Error while update data to opensearch")
+		return errors.New("update failed")
+	}
+
+	r.logger.
+		Info().
+		Keyword("action", "update document").
+		Keyword("index_name", indexName).
+		Keyword("doc_id", docID).
+		Msg("successfully update document")
+	return nil
+}
+
+func (r *openSearchRepository[T]) Delete(indexName string, docID string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	req := opensearchapi.DeleteRequest{
+		Index:      indexName,
+		DocumentID: docID,
+	}
+
+	res, err := req.Do(ctx, r.opensearchClient)
+	if err != nil {
+		r.logger.
+			Error(err).
+			Keyword("action", "delete document").
+			Keyword("index_name", indexName).
+			Keyword("doc_id", docID).
+			Msg("Error while create data to opensearch")
+		return err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		r.logger.
+			Error(err).
+			Keyword("action", "delete document").
+			Keyword("index_name", indexName).
+			Keyword("doc_id", docID).
+			Keyword("status_code", res.StatusCode).
+			Msg("Error while delete data to opensearch")
+		return errors.New("delete failed")
+	}
+
+	r.logger.
+		Info().
+		Keyword("action", "delete document").
+		Keyword("index_name", indexName).
+		Keyword("doc_id", docID).
+		Msg("successfully delete document")
 	return nil
 }
 
