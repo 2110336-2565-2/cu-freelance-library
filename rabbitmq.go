@@ -36,12 +36,11 @@ func NewRabbitMQ(conn *amqp.Connection) (RabbitMQ, error) {
 }
 
 type rabbitmq struct {
-	logger       Logger
-	conn         *amqp.Connection
-	channel      *amqp.Channel
-	errCh        <-chan *amqp.Error
-	messageChan  <-chan amqp.Delivery
-	retryAttempt int
+	logger      Logger
+	conn        *amqp.Connection
+	channel     *amqp.Channel
+	errCh       <-chan *amqp.Error
+	messageChan <-chan amqp.Delivery
 }
 
 func (r *rabbitmq) Close() {
