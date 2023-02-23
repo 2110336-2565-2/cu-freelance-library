@@ -25,9 +25,9 @@ type OpenSearchDocumentAble interface {
 
 type OpenSearchRepository[T OpenSearchDocumentAble] interface {
 	CreateIndex(indexName string, indexBody []byte) error
-	Insert(indexName string, docID string, doc any) error
+	Insert(indexName string, docID string, doc T) error
 	InsertBulk(indexName string, contentList []T) error
-	Update(indexName string, docID string, doc any) error
+	Update(indexName string, docID string, doc T) error
 	Delete(indexName string, docID string) error
 	Search(indexName string, req *map[string]interface{}, result *map[string]interface{}, meta *PaginationMetadata) error
 	Suggest(indexName string, req *map[string]interface{}, result *map[string]interface{}) error
