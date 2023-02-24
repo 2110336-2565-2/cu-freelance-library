@@ -13,6 +13,7 @@ service AuthService {
   rpc Validate(ValidateRequest) returns (ValidateResponse){}
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse){}
   rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse){}
+  rpc Logout(LogoutRequest) returns(LogoutResponse) {}
 }
 
 message Credential{
@@ -103,3 +104,13 @@ message ChangePasswordResponse{
   bool is_success = 1;
 }
 
+
+// Logout
+
+message LogoutRequest{
+
+}
+
+message LogoutResponse{
+
+}
