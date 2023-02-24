@@ -14,6 +14,8 @@ service RequestService{
     rpc CreateRequest(CreateRequestInput) returns (CreateRequestResponse);
     rpc UpdateRequest(UpdateRequestInput) returns (UpdateRequestResponse);
     rpc DeleteRequest(DeleteRequestInput) returns (DeleteRequestResponse);
+    rpc AcceptRequest(AcceptRequestInput) returns (AcceptRequestResponse);
+    rpc RejectRequest(RejectRequestInput) returns (RejectRequestResponse);
 }
 
 message Request{
@@ -110,5 +112,23 @@ message DeleteRequestInput{
 }
 
 message DeleteRequestResponse{
+    bool is_success = 1;
+}
+
+message AcceptRequestInput{
+    string id = 1;
+    string freelance_id = 2;
+}
+
+message AcceptRequestResponse{
+    bool is_success = 1;
+}
+
+message RejectRequestInput{
+    string id = 1;
+    string freelance_id = 2;
+}
+
+message RejectRequestResponse{
     bool is_success = 1;
 }
