@@ -27,7 +27,7 @@ type OpenSearchRepository[T OpenSearchDocumentAble] interface {
 	CreateIndex(indexName string, indexBody []byte) error
 	Insert(indexName string, docID string, doc T) error
 	InsertBulk(indexName string, contentList []T) error
-	Update(indexName string, docID string, doc T) error
+	Update(indexName string, docID string, doc map[string]interface{}) error
 	Delete(indexName string, docID string) error
 	Search(indexName string, req *map[string]interface{}, result *map[string]interface{}, meta *PaginationMetadata) error
 	Suggest(indexName string, req *map[string]interface{}, result *map[string]interface{}) error
@@ -250,17 +250,8 @@ func (r *openSearchRepository[T]) InsertBulk(indexName string, contentList []T) 
 	return nil
 }
 
-func (r *openSearchRepository[T]) Update(indexName string, docID string, doc T) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	req := opensearchapi.UpdateRequest{
-		Index:      indexName,
-		DocumentID: docID,
-		Body:       opensearchutil.NewJSONReader(doc.ToDoc()),
-	}
-
-	res, err := req.Do(ctx, r.opensearchClient)
+func (r *openSearchRepository[T]) Update(indexName string, docID string, doc map[string]interface{}) error {
+	res, err := r.opensearchClient.Update(indexName, docID, opensearchutil.NewJSONReader(map[string]interface{}{"doc": doc}), r.opensearchClient.Update.WithTimeout(5*time.Second))
 	if err != nil {
 		r.logger.
 			Error(err).
