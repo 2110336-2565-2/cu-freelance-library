@@ -7,7 +7,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/google/uuid v1.3.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/opensearch-project/opensearch-go v1.1.0
+	github.com/opensearch-project/opensearch-go/v2 v2.2.0
 	github.com/pemistahl/lingua-go v1.3.3
 	github.com/pkg/errors v0.9.1
 	github.com/rabbitmq/amqp091-go v1.7.0
