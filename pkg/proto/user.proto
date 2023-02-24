@@ -8,6 +8,7 @@ service UserService {
   rpc FindOneLocalUser(FindOneLocalUserRequest) returns (FindOneLocalUserResponse){}
   rpc FindOneUserStudent(FindOneUserStudentRequest) returns (FindOneUserStudentResponse){}
   rpc Update(UpdateUserRequest) returns (UpdateUserResponse){}
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse){}
 }
 
 message LocalUser{
@@ -69,3 +70,16 @@ message UpdateUserRequest{
 message UpdateUserResponse{
   bool is_success = 1;
 }
+
+// Change Password
+
+message ChangePasswordRequest{
+  string id = 1;
+  string current_password = 2;
+  string new_password = 3;
+}
+
+message ChangePasswordResponse{
+  bool is_success = 1;
+}
+
