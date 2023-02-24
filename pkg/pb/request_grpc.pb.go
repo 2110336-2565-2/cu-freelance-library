@@ -29,6 +29,8 @@ type RequestServiceClient interface {
 	CreateRequest(ctx context.Context, in *CreateRequestInput, opts ...grpc.CallOption) (*CreateRequestResponse, error)
 	UpdateRequest(ctx context.Context, in *UpdateRequestInput, opts ...grpc.CallOption) (*UpdateRequestResponse, error)
 	DeleteRequest(ctx context.Context, in *DeleteRequestInput, opts ...grpc.CallOption) (*DeleteRequestResponse, error)
+	AcceptRequest(ctx context.Context, in *AcceptRequestInput, opts ...grpc.CallOption) (*AcceptRequestResponse, error)
+	RejectRequest(ctx context.Context, in *RejectRequestInput, opts ...grpc.CallOption) (*RejectRequestResponse, error)
 }
 
 type requestServiceClient struct {
@@ -102,6 +104,24 @@ func (c *requestServiceClient) DeleteRequest(ctx context.Context, in *DeleteRequ
 	return out, nil
 }
 
+func (c *requestServiceClient) AcceptRequest(ctx context.Context, in *AcceptRequestInput, opts ...grpc.CallOption) (*AcceptRequestResponse, error) {
+	out := new(AcceptRequestResponse)
+	err := c.cc.Invoke(ctx, "/request.RequestService/AcceptRequest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *requestServiceClient) RejectRequest(ctx context.Context, in *RejectRequestInput, opts ...grpc.CallOption) (*RejectRequestResponse, error) {
+	out := new(RejectRequestResponse)
+	err := c.cc.Invoke(ctx, "/request.RequestService/RejectRequest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RequestServiceServer is the server API for RequestService service.
 // All implementations should embed UnimplementedRequestServiceServer
 // for forward compatibility
@@ -113,6 +133,8 @@ type RequestServiceServer interface {
 	CreateRequest(context.Context, *CreateRequestInput) (*CreateRequestResponse, error)
 	UpdateRequest(context.Context, *UpdateRequestInput) (*UpdateRequestResponse, error)
 	DeleteRequest(context.Context, *DeleteRequestInput) (*DeleteRequestResponse, error)
+	AcceptRequest(context.Context, *AcceptRequestInput) (*AcceptRequestResponse, error)
+	RejectRequest(context.Context, *RejectRequestInput) (*RejectRequestResponse, error)
 }
 
 // UnimplementedRequestServiceServer should be embedded to have forward compatible implementations.
@@ -139,6 +161,12 @@ func (UnimplementedRequestServiceServer) UpdateRequest(context.Context, *UpdateR
 }
 func (UnimplementedRequestServiceServer) DeleteRequest(context.Context, *DeleteRequestInput) (*DeleteRequestResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRequest not implemented")
+}
+func (UnimplementedRequestServiceServer) AcceptRequest(context.Context, *AcceptRequestInput) (*AcceptRequestResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AcceptRequest not implemented")
+}
+func (UnimplementedRequestServiceServer) RejectRequest(context.Context, *RejectRequestInput) (*RejectRequestResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RejectRequest not implemented")
 }
 
 // UnsafeRequestServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -278,6 +306,42 @@ func _RequestService_DeleteRequest_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RequestService_AcceptRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AcceptRequestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RequestServiceServer).AcceptRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/request.RequestService/AcceptRequest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RequestServiceServer).AcceptRequest(ctx, req.(*AcceptRequestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RequestService_RejectRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RejectRequestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RequestServiceServer).RejectRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/request.RequestService/RejectRequest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RequestServiceServer).RejectRequest(ctx, req.(*RejectRequestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RequestService_ServiceDesc is the grpc.ServiceDesc for RequestService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -312,6 +376,14 @@ var RequestService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteRequest",
 			Handler:    _RequestService_DeleteRequest_Handler,
+		},
+		{
+			MethodName: "AcceptRequest",
+			Handler:    _RequestService_AcceptRequest_Handler,
+		},
+		{
+			MethodName: "RejectRequest",
+			Handler:    _RequestService_RejectRequest_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
