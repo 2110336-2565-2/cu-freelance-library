@@ -12,6 +12,7 @@ service AuthService {
   rpc VerifyTicket(VerifyTicketRequest) returns (VerifyTicketResponse){}
   rpc Validate(ValidateRequest) returns (ValidateResponse){}
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse){}
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse){}
 }
 
 message Credential{
@@ -89,3 +90,16 @@ message RefreshTokenRequest{
 message RefreshTokenResponse{
   Credential credential = 1;
 }
+
+// Change Password
+
+message ChangePasswordRequest{
+  string id = 1;
+  string current_password = 2;
+  string new_password = 3;
+}
+
+message ChangePasswordResponse{
+  bool is_success = 1;
+}
+
