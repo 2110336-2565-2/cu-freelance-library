@@ -91,6 +91,7 @@ message UpdatePortfolioRequest {
   string category = 5;
   float price = 6;
   int32 duration = 7;
+  string user_id = 8;
 }
 
 message UpdatePortfolioResponse {
@@ -101,6 +102,7 @@ message UpdatePortfolioResponse {
 
 message DeletePortfolioRequest {
   string id = 1;
+  string user_id = 2;
 }
 
 message DeletePortfolioResponse {
