@@ -117,7 +117,7 @@ message DeleteRequestResponse{
 
 message AcceptRequestInput{
     string id = 1;
-    string freelance_id = 2;
+    string orderTemplate_id = 2;
 }
 
 message AcceptRequestResponse{
@@ -126,7 +126,6 @@ message AcceptRequestResponse{
 
 message RejectRequestInput{
     string id = 1;
-    string freelance_id = 2;
 }
 
 message RejectRequestResponse{
