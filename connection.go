@@ -7,6 +7,12 @@ import (
 	"github.com/opensearch-project/opensearch-go/v2"
 	"github.com/opensearch-project/opensearch-go/v2/opensearchtransport"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	jg "go.opentelemetry.io/otel/exporters/jaeger"
+	"go.opentelemetry.io/otel/sdk/resource"
+	tracesdk "go.opentelemetry.io/otel/sdk/trace"
+	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"
@@ -94,4 +100,29 @@ func InitRedisConnect(conf *RedisConfig) (cache *redis.Client, err error) {
 	})
 
 	return
+}
+
+type JaegerConfig struct {
+	Host        string `mapstructure:"host"`
+	Environment string `mapstructure:"env"`
+	ServiceName string `mapstructure:"service-name"`
+}
+
+func InitJaegerTracerProvider(conf *JaegerConfig) (*tracesdk.TracerProvider, error) {
+	exp, err := jg.New(jg.WithCollectorEndpoint(jg.WithEndpoint(conf.Host + "/api/traces")))
+	if err != nil {
+		return nil, err
+	}
+
+	tp := tracesdk.NewTracerProvider(
+		tracesdk.WithBatcher(exp),
+		tracesdk.WithResource(resource.NewWithAttributes(
+			semconv.SchemaURL,
+			semconv.ServiceName(conf.ServiceName),
+			attribute.String("environment", conf.Environment),
+		)),
+	)
+
+	otel.SetTracerProvider(tp)
+	return tp, nil
 }
