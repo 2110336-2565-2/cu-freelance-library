@@ -107,9 +107,9 @@ message ChangePasswordResponse{
 // Logout
 
 message LogoutRequest{
-
+  string token = 1;
 }
 
 message LogoutResponse{
-
+  bool is_success = 1;
 }
