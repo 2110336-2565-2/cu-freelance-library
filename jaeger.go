@@ -3,12 +3,39 @@ package gosdk
 import (
 	"context"
 	"github.com/2110336-2565-2/cu-freelance-library/pkg/tracer"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	tr "go.opentelemetry.io/otel/trace"
+	"google.golang.org/grpc"
 	"time"
 )
 
 var tracerService tracer.Service
 
+// NewGRPUnaryClientInterceptor returns unary client interceptor. It is used
+// with `grpc.WithUnaryInterceptor` method.
+func NewGRPUnaryClientInterceptor() grpc.UnaryClientInterceptor {
+	return otelgrpc.UnaryClientInterceptor()
+}
+
+// NewGRPUnaryServerInterceptor returns unary server interceptor. It is used
+// with `grpc.UnaryInterceptor` method.
+func NewGRPUnaryServerInterceptor() grpc.UnaryServerInterceptor {
+	return otelgrpc.UnaryServerInterceptor()
+}
+
+// NewGRPCStreamClientInterceptor returns stream client interceptor. It is used
+// with `grpc.WithStreamInterceptor` method.
+func NewGRPCStreamClientInterceptor() grpc.StreamClientInterceptor {
+	return otelgrpc.StreamClientInterceptor()
+}
+
+// NewGRPCStreamServerInterceptor returns stream server interceptor. It is used
+// with `grpc.StreamInterceptor` method.
+func NewGRPCStreamServerInterceptor() grpc.StreamServerInterceptor {
+	return otelgrpc.StreamServerInterceptor()
+}
+
+// SetUpTracer set up the jaeger url and resource setting
 func SetUpTracer(conf *JaegerConfig) error {
 	service, err := tracer.NewService(conf.Host, conf.Environment, conf.ServiceName)
 	if err != nil {
