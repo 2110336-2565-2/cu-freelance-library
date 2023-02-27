@@ -6,6 +6,5 @@ import (
 )
 
 type Service interface {
-	Tracer(tracerName string)
-	Start(ctx context.Context, name string, opt ...tr.SpanStartOption) (context.Context, tr.Span)
+	Tracer(tracerName string, ctx context.Context, spanName string, opt ...tr.SpanStartOption) (context.Context, tr.Span)
 }

@@ -9,21 +9,20 @@ import (
 var tracerService tracer.Service
 
 func SetUpTracer(conf *JaegerConfig, tracerName string) error {
-	service, err := tracer.NewService(conf)
+	service, err := tracer.NewService(conf.Host, conf.Environment, conf.ServiceName)
 	if err != nil {
 		return err
 	}
 
 	tracerService = service
-	service.Tracer(tracerName)
 
 	return nil
 }
 
-func StartTracer(ctx context.Context, name string, opt ...tr.SpanStartOption) (context.Context, tr.Span) {
+func StartTracer(tracerName string, ctx context.Context, name string, opt ...tr.SpanStartOption) (context.Context, tr.Span) {
 	if tracerService == nil {
 		return nil, nil
 	}
 
-	return tracerService.Start(ctx, name, opt...)
+	return tracerService.Tracer(tracerName, ctx, name, opt...)
 }

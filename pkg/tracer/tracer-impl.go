@@ -2,13 +2,39 @@ package tracer
 
 import (
 	"context"
-	gosdk "github.com/2110336-2565-2/cu-freelance-library"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	jg "go.opentelemetry.io/otel/exporters/jaeger"
+	"go.opentelemetry.io/otel/propagation"
+	"go.opentelemetry.io/otel/sdk/resource"
 	"go.opentelemetry.io/otel/sdk/trace"
+	tracesdk "go.opentelemetry.io/otel/sdk/trace"
+	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
 	tr "go.opentelemetry.io/otel/trace"
 )
 
-func NewService(conf *gosdk.JaegerConfig) (Service, error) {
-	tracerProvider, err := gosdk.InitJaegerTracerProvider(conf)
+func initJaegerTracerProvider(host string, environment string, serviceName string) (*tracesdk.TracerProvider, error) {
+	exp, err := jg.New(jg.WithCollectorEndpoint(jg.WithEndpoint(host + "/api/traces")))
+	if err != nil {
+		return nil, err
+	}
+
+	tp := tracesdk.NewTracerProvider(
+		tracesdk.WithBatcher(exp),
+		tracesdk.WithResource(resource.NewWithAttributes(
+			semconv.SchemaURL,
+			semconv.ServiceName(serviceName),
+			attribute.String("environment", environment),
+		)),
+	)
+
+	otel.SetTracerProvider(tp)
+	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
+	return tp, nil
+}
+
+func NewService(host string, environment string, serviceName string) (Service, error) {
+	tracerProvider, err := initJaegerTracerProvider(host, environment, serviceName)
 	if err != nil {
 		return nil, err
 	}
@@ -20,15 +46,8 @@ func NewService(conf *gosdk.JaegerConfig) (Service, error) {
 
 type tracer struct {
 	tracerProvider *trace.TracerProvider
-	tracer         tr.Tracer
 }
 
-func (t *tracer) Tracer(tracerName string) {
-	tracer := t.tracerProvider.Tracer(tracerName)
-
-	t.tracer = tracer
-}
-
-func (t *tracer) Start(ctx context.Context, name string, opt ...tr.SpanStartOption) (context.Context, tr.Span) {
-	return t.tracer.Start(ctx, name, opt...)
+func (t *tracer) Tracer(tracerName string, ctx context.Context, spanName string, opt ...tr.SpanStartOption) (context.Context, tr.Span) {
+	return t.tracerProvider.Tracer(tracerName).Start(ctx, spanName, opt...)
 }
