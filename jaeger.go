@@ -9,7 +9,7 @@ import (
 
 var tracerService tracer.Service
 
-func SetUpTracer(conf *JaegerConfig, tracerName string) error {
+func SetUpTracer(conf *JaegerConfig) error {
 	service, err := tracer.NewService(conf.Host, conf.Environment, conf.ServiceName)
 	if err != nil {
 		return err
