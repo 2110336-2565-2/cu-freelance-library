@@ -1,12 +1,13 @@
 package gosdk
 
 import (
+	"context"
 	"go.opentelemetry.io/otel/sdk/trace"
 	tr "go.opentelemetry.io/otel/trace"
 )
 
 type Jaeger interface {
-	Tracer(name string, config ...tr.TracerOption) tr.Tracer
+	Start(ctx context.Context, name string, opt ...tr.SpanStartOption) (context.Context, tr.Span)
 }
 
 func NewJaeger(tracerProvider *trace.TracerProvider) Jaeger {
@@ -16,9 +17,10 @@ func NewJaeger(tracerProvider *trace.TracerProvider) Jaeger {
 }
 
 type jaeger struct {
+	tracer         tr.Tracer
 	tracerProvider *trace.TracerProvider
 }
 
-func (j *jaeger) Tracer(name string, config ...tr.TracerOption) tr.Tracer {
-	return j.tracerProvider.Tracer(name, config...)
+func (j *jaeger) Start(ctx context.Context, name string, opt ...tr.SpanStartOption) (context.Context, tr.Span) {
+	return j.tracer.Start(ctx, name, opt...)
 }
