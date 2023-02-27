@@ -4,12 +4,13 @@ Service connection is the function use for initialize the connection to database
 ## Supported Service Connection
 Current support total 4 services
 
-| name          | description                                 |
-|---------------|---------------------------------------------|
-| PostgreSQL    | The opensource SQL database                 |
-| Redis         | The very useful key-value database          |
-| RabbitMQ      | The message broker                          |
-| Opensearch    | The database that very efficient for search |
+| name       | description                                 |
+|------------|---------------------------------------------|
+| PostgreSQL | The opensource SQL database                 |
+| Redis      | The very useful key-value database          |
+| RabbitMQ   | The message broker                          |
+| Opensearch | The database that very efficient for search |
+| Jaeger     | The distributed tracing service             |
 
 # Getting Start
 
@@ -154,3 +155,36 @@ type OpensearchConfig struct {
 | Username           | Username of Opensearch                                        | admin                  |
 | Password           | Password of Opensearch                                        | admin                  |
 | InsecureSkipVerify | Skip verify SSL                                               | true                   |
+
+### JaegerConnection
+
+return `*tracesdk.TracerProvider` when successfully
+
+```go
+traceProvider, err := gosdk.InitJaegerTracerProvider(JaegerConfig)
+if err != nil {
+    // handle error
+}
+```
+
+**Parameters**
+
+| name          | description   |
+|---------------|---------------|
+| Jaeger Config | Jaeger config |
+
+
+**Configuration**
+
+```go
+type JaegerConfig struct {
+    Host        string `mapstructure:"host"`
+    Environment string `mapstructure:"env"`
+    ServiceName string `mapstructure:"service-name"`
+}
+```
+| name              | description                                               | example                |
+|-------------------|-----------------------------------------------------------|------------------------|
+| Host              | The host of the Jaeger in format ` http://hostname:port ` | http://localhost:14268 |
+| Environment       | Environment of current service                            | local                  |
+| ServiceName       | The name of service                                       | gateway                |

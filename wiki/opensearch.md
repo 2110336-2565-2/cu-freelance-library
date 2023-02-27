@@ -7,7 +7,7 @@ Opensearch repository is the interface repository for query the data from opense
 Opensearch repository can be initialize by **NewOpenSearchRepository** method with the **OpensearchDocumentAble** entity
 
 ```go
-repo := gosdk.NewOpenSearchRepository[*portfolio.Portfolio](*Logger, *OpensearchClient)
+repo := gosdk.NewOpenSearchRepository[*portfolio.Portfolio](*OpensearchClient)
 ```
 
 ## Configuration
@@ -15,7 +15,6 @@ repo := gosdk.NewOpenSearchRepository[*portfolio.Portfolio](*Logger, *Opensearch
 
 | name              | description                                      |
 |-------------------|--------------------------------------------------|
-| Logger            | the logger service                               |
 | Opensearch Client | the client  of the opensearch for calling an API |
 
 ### Return

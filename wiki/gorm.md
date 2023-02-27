@@ -41,17 +41,17 @@ type Entity interface {
 the gorm scope for pagination query
 
 ```go
-	if err := r.db.GetDB().
-		Scopes(gosdk.Pagination[Entity](entityList, metadata, gormDB, ...Scope)).
-		Find(&entityList).
-		Error; err != nil {
-		return err
-	}
+if err := r.db.GetDB().
+    Scopes(gosdk.Pagination[Entity](entityList, metadata, gormDB, ...Scope)).
+    Find(&entityList).
+    Error; err != nil {
+    return err
+}
 
-	metadata.ItemCount = len(*entityList)
-	metadata.CalItemPerPage()
+metadata.ItemCount = len(*entityList)
+metadata.CalItemPerPage()
 
-	return nil
+return nil
 ```
 
 #### Parameters
@@ -66,36 +66,36 @@ the gorm scope for pagination query
 **Example Basic**
 
 ```go
-	if err := r.db.GetDB().
-		Scopes(gosdk.Pagination[Entity](entity, metadata, r.db.GetDB())).
-		Find(&entity).
-		Error; err != nil {
-		return err
-	}
+if err := r.db.GetDB().
+    Scopes(gosdk.Pagination[Entity](entity, metadata, r.db.GetDB())).
+    Find(&entity).
+    Error; err != nil {
+    return err
+}
 
-	metadata.ItemCount = len(*entity)
-	metadata.CalItemPerPage()
+metadata.ItemCount = len(*entity)
+metadata.CalItemPerPage()
 
-	return nil
+return nil
 ```
 
 **Example with Scope**
 
 ```go
-	if err := r.db.GetDB().
-		Preload("Relationship")
-		Scopes(gosdk.Pagination[Entity](entity, metadata, r.db.GetDB(), func(db *gorm.DB) *gorm.DB{
-		    return db.Where("something = ?", something)	
-        })).
-		Find(&entity, "something = ?", something).
-		Error; err != nil {
-		return err
-	}
+if err := r.db.GetDB().
+    Preload("Relationship")
+    Scopes(gosdk.Pagination[Entity](entity, metadata, r.db.GetDB(), func(db *gorm.DB) *gorm.DB{
+        return db.Where("something = ?", something)	
+    })).
+    Find(&entity, "something = ?", something).
+    Error; err != nil {
+    return err
+}
 
-	metadata.ItemCount = len(*entity)
-	metadata.CalItemPerPage()
+metadata.ItemCount = len(*entity)
+metadata.CalItemPerPage()
 
-	return nil
+return nil
 ```
 
 ## Usage
