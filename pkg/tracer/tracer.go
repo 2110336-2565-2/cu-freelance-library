@@ -7,4 +7,5 @@ import (
 
 type Service interface {
 	Tracer(tracerName string, ctx context.Context, spanName string, opt ...tr.SpanStartOption) (context.Context, tr.Span)
+	Shutdown(ctx context.Context) error
 }

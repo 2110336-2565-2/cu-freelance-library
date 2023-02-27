@@ -11,6 +11,7 @@ import (
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
 	tr "go.opentelemetry.io/otel/trace"
+	"time"
 )
 
 func initJaegerTracerProvider(host string, environment string, serviceName string) (*tracesdk.TracerProvider, error) {
@@ -50,4 +51,11 @@ type tracer struct {
 
 func (t *tracer) Tracer(tracerName string, ctx context.Context, spanName string, opt ...tr.SpanStartOption) (context.Context, tr.Span) {
 	return t.tracerProvider.Tracer(tracerName).Start(ctx, spanName, opt...)
+}
+
+func (t *tracer) Shutdown(ctx context.Context) error {
+	ctx, cancel := context.WithTimeout(ctx, time.Second*5)
+	defer cancel()
+
+	return t.tracerProvider.Shutdown(ctx)
 }

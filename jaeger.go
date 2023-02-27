@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/2110336-2565-2/cu-freelance-library/pkg/tracer"
 	tr "go.opentelemetry.io/otel/trace"
+	"time"
 )
 
 var tracerService tracer.Service
@@ -25,4 +26,10 @@ func StartTracer(tracerName string, ctx context.Context, name string, opt ...tr.
 	}
 
 	return tracerService.Tracer(tracerName, ctx, name, opt...)
+}
+
+func CloseTracer() error {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+	return tracerService.Shutdown(ctx)
 }
