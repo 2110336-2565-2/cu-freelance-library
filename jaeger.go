@@ -29,6 +29,10 @@ func StartTracer(tracerName string, ctx context.Context, name string, opt ...tr.
 }
 
 func CloseTracer() error {
+	if tracerService == nil {
+		return nil
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 	return tracerService.Shutdown(ctx)
