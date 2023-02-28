@@ -37,12 +37,19 @@ func NewGRPCStreamServerInterceptor() grpc.StreamServerInterceptor {
 
 // SetUpTracer set up the jaeger url and resource setting
 func SetUpTracer(conf *JaegerConfig) error {
+	logger := NewLogger("jaeger")
 	service, err := tracer.NewService(conf.Host, conf.Environment, conf.ServiceName)
 	if err != nil {
 		return err
 	}
 
 	tracerService = service
+
+	logger.Info().
+		Keyword("host", conf.Host).
+		Keyword("environment", conf.Environment).
+		Keyword("service_name", conf.ServiceName).
+		Msg("successfully setup jaeger tracing")
 
 	return nil
 }
