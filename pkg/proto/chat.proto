@@ -42,8 +42,6 @@ message CreateMessageRequest{
   string message = 1;
   string author = 2;
   uint32 likes = 3;
-  // remove this field in production
-  string id = 4;
 }
 
 message CreateMessageResponse{
