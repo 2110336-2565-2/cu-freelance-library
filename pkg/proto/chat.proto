@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package chat;
 
-option go_package = "src/pb;pb";
+option go_package = "pkg/pb;pb";
 
 import "google/protobuf/timestamp.proto";
 
