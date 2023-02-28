@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/go-redis/redis/v8"
+	"github.com/gocql/gocql"
 	"github.com/opensearch-project/opensearch-go/v2"
 	"github.com/opensearch-project/opensearch-go/v2/opensearchtransport"
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -100,4 +101,23 @@ type JaegerConfig struct {
 	Host        string `mapstructure:"host"`
 	Environment string `mapstructure:"env"`
 	ServiceName string `mapstructure:"service-name"`
+}
+
+type CassandraConfig struct {
+	Host     string `mapstructure:"host"`
+	User     string `mapstructure:"username"`
+	Password string `mapstructure:"password"`
+	Keyspace string `mapstructure:"keyspace"`
+}
+
+func InitCassandraConnection(conf *CassandraConfig) (*gocql.Session, error) {
+	cluster := gocql.NewCluster(conf.Host)
+	cluster.Authenticator = gocql.PasswordAuthenticator{
+		Username: conf.User,
+		Password: conf.Password,
+	}
+
+	cluster.Keyspace = conf.Keyspace
+
+	return cluster.CreateSession()
 }
