@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "src/pb;pb";
+
+import "google/protobuf/timestamp.proto";
+
+service ChatService {
+  rpc CreateMessage(CreateMessageRequest) returns (CreateMessageResponse){}
+  rpc UpdateMessage(UpdateMessageRequest) returns (UpdateMessageResponse){}
+  rpc DeleteMessage(DeleteMessageRequest) returns (DeleteMessageResponse){}
+  rpc SyncMessage(SyncMessageRequest) returns (SyncMessageResponse){}
+}
+
+enum Action{
+  Unknown = 0;
+  Create = 1;
+  UpdateMessage = 2;
+  UpdateAsset = 3;
+  Delete = 4;
+}
+
+message Message{
+  string id = 1;
+  string message = 2;
+  string author = 3;
+  uint32 likes = 4;
+  google.protobuf.Timestamp sent_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message MessageChangelog{
+  string id = 1;
+  Action action = 2;
+  Message message = 3;
+}
+
+// Create Message
+
+message CreateMessageRequest{
+  string message = 1;
+  string author = 2;
+  uint32 likes = 3;
+  // remove this field in production
+  string id = 4;
+}
+
+message CreateMessageResponse{
+  Message message = 1;
+}
+
+// Update Message
+
+message UpdateMessageRequest{
+  string id = 1;
+  Action action = 2;
+  string message = 3;
+  string author = 4;
+  uint32 likes = 5;
+}
+
+message UpdateMessageResponse{
+  Message message = 2;
+}
+
+// Delete Message
+
+message DeleteMessageRequest{
+  string id = 1;
+}
+
+message DeleteMessageResponse{
+  bool success = 1;
+}
+
+// Sync Message
+
+message SyncMessageRequest {}
+
+message SyncMessageResponse {}
