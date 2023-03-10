@@ -10,6 +10,7 @@ proto:
 	protoc --proto_path=pkg/proto --go_out=. --go-grpc_out=require_unimplemented_servers=false:. request.proto
 	protoc --proto_path=pkg/proto --go_out=. --go-grpc_out=require_unimplemented_servers=false:. file.proto
 	protoc --proto_path=pkg/proto --go_out=. --go-grpc_out=require_unimplemented_servers=false:. chat.proto
+	protoc --proto_path=pkg/proto --go_out=. --go-grpc_out=require_unimplemented_servers=false:. websocket.proto
 
 test:
 	go test -v -coverpkg . -coverprofile coverage.out -covermode count .
