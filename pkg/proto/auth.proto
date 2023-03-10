@@ -14,6 +14,8 @@ service AuthService {
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse){}
   rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse){}
   rpc Logout(LogoutRequest) returns(LogoutResponse) {}
+  rpc CreateWebsocketTicket(CreateWebsocketTicketRequest) returns (CreateWebsocketTicketResponse){}
+  rpc VerifyWebsocketTicket(VerifyWebsocketTicketRequest) returns (VerifyWebsocketTicketResponse){}
 }
 
 message Credential{
@@ -112,4 +114,24 @@ message LogoutRequest{
 
 message LogoutResponse{
   bool is_success = 1;
+}
+
+// Create Websocket Ticket
+
+message CreateWebsocketTicketRequest{
+  string user_id = 1;
+}
+
+message CreateWebsocketTicketResponse{
+  string ticket = 1;
+}
+
+// Verify Websocket Ticket
+
+message VerifyWebsocketTicketRequest{
+  string ticket = 1;
+}
+
+message VerifyWebsocketTicketResponse{
+  string user_id = 1;
 }
