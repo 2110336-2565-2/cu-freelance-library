@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package websocket;
+
+option go_package = "pkg/pb;pb";
+
+service WebsocketService{
+  rpc CreateWebsocketTicket(CreateWebsocketTicketRequest) returns (CreateWebsocketTicketResponse){}
+  rpc VerifyWebsocketTicket(VerifyWebsocketTicketRequest) returns (VerifyWebsocketTicketResponse){}
+}
+
+
+// Create Websocket Ticket
+
+message CreateWebsocketTicketRequest{
+  string user_id = 1;
+}
+
+message CreateWebsocketTicketResponse{
+  string ticket = 1;
+}
+
+// Verify Websocket Ticket
+
+message VerifyWebsocketTicketRequest{
+  string ticket = 1;
+}
+
+message VerifyWebsocketTicketResponse{
+  string user_id = 1;
+}

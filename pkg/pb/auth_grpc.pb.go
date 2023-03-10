@@ -29,8 +29,6 @@ type AuthServiceClient interface {
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
 	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*ChangePasswordResponse, error)
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
-	CreateWebsocketTicket(ctx context.Context, in *CreateWebsocketTicketRequest, opts ...grpc.CallOption) (*CreateWebsocketTicketResponse, error)
-	VerifyWebsocketTicket(ctx context.Context, in *VerifyWebsocketTicketRequest, opts ...grpc.CallOption) (*VerifyWebsocketTicketResponse, error)
 }
 
 type authServiceClient struct {
@@ -104,24 +102,6 @@ func (c *authServiceClient) Logout(ctx context.Context, in *LogoutRequest, opts 
 	return out, nil
 }
 
-func (c *authServiceClient) CreateWebsocketTicket(ctx context.Context, in *CreateWebsocketTicketRequest, opts ...grpc.CallOption) (*CreateWebsocketTicketResponse, error) {
-	out := new(CreateWebsocketTicketResponse)
-	err := c.cc.Invoke(ctx, "/auth.AuthService/CreateWebsocketTicket", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) VerifyWebsocketTicket(ctx context.Context, in *VerifyWebsocketTicketRequest, opts ...grpc.CallOption) (*VerifyWebsocketTicketResponse, error) {
-	out := new(VerifyWebsocketTicketResponse)
-	err := c.cc.Invoke(ctx, "/auth.AuthService/VerifyWebsocketTicket", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // AuthServiceServer is the server API for AuthService service.
 // All implementations should embed UnimplementedAuthServiceServer
 // for forward compatibility
@@ -133,8 +113,6 @@ type AuthServiceServer interface {
 	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	ChangePassword(context.Context, *ChangePasswordRequest) (*ChangePasswordResponse, error)
 	Logout(context.Context, *LogoutRequest) (*LogoutResponse, error)
-	CreateWebsocketTicket(context.Context, *CreateWebsocketTicketRequest) (*CreateWebsocketTicketResponse, error)
-	VerifyWebsocketTicket(context.Context, *VerifyWebsocketTicketRequest) (*VerifyWebsocketTicketResponse, error)
 }
 
 // UnimplementedAuthServiceServer should be embedded to have forward compatible implementations.
@@ -161,12 +139,6 @@ func (UnimplementedAuthServiceServer) ChangePassword(context.Context, *ChangePas
 }
 func (UnimplementedAuthServiceServer) Logout(context.Context, *LogoutRequest) (*LogoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
-}
-func (UnimplementedAuthServiceServer) CreateWebsocketTicket(context.Context, *CreateWebsocketTicketRequest) (*CreateWebsocketTicketResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateWebsocketTicket not implemented")
-}
-func (UnimplementedAuthServiceServer) VerifyWebsocketTicket(context.Context, *VerifyWebsocketTicketRequest) (*VerifyWebsocketTicketResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VerifyWebsocketTicket not implemented")
 }
 
 // UnsafeAuthServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -306,42 +278,6 @@ func _AuthService_Logout_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthService_CreateWebsocketTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateWebsocketTicketRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).CreateWebsocketTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/auth.AuthService/CreateWebsocketTicket",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).CreateWebsocketTicket(ctx, req.(*CreateWebsocketTicketRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_VerifyWebsocketTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VerifyWebsocketTicketRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).VerifyWebsocketTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/auth.AuthService/VerifyWebsocketTicket",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).VerifyWebsocketTicket(ctx, req.(*VerifyWebsocketTicketRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -376,14 +312,6 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Logout",
 			Handler:    _AuthService_Logout_Handler,
-		},
-		{
-			MethodName: "CreateWebsocketTicket",
-			Handler:    _AuthService_CreateWebsocketTicket_Handler,
-		},
-		{
-			MethodName: "VerifyWebsocketTicket",
-			Handler:    _AuthService_VerifyWebsocketTicket_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
