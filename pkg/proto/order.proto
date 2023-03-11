@@ -14,7 +14,6 @@ service OrderService {
     rpc DeleteOrderByID(DeleteOrderRequest) returns (DeleteOrderResponse);
 }
 
-
 message Order{
     string id = 1;
     string freelance_id = 2;
@@ -24,14 +23,22 @@ message Order{
     string status = 6;
     int32 price = 7;
     int32 duration = 8;
-    string tel = 9;
+    string tel = 9; 
     string email = 10;
+}
+
+message OrderFilter{
+    repeated uint32 duration = 1;
+    repeated uint32 status = 2;
+    uint32 min_price = 3;
+    uint32 max_price = 4;
 }
 
 message GetOrderPaginateRequest{
     string user_id = 1;
     int32 limit = 2;
     int32 page = 3;
+    OrderFilter filter = 4;
 }
 
 message OrderPaginateResponse{

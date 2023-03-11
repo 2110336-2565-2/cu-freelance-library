@@ -15,6 +15,11 @@ service OrderTemplateService {
     rpc DeleteOrderTemplateByID(DeleteOrderTemplateRequest) returns (DeleteOrderTemplateResponse);
 }
 
+message OrderTemplateFilter{
+    repeated uint32 duration = 1;
+    uint32 min_price = 3;
+    uint32 max_price = 4;
+}
 
 message OrderTemplate{
     string id = 1;
@@ -32,6 +37,7 @@ message GetOrderTemplatePaginateRequest{
     string customer_id = 1;
     int32 limit = 2;
     int32 page = 3;
+    OrderTemplateFilter filter = 4;
 }
 
 message OrderTemplatePaginateResponse{

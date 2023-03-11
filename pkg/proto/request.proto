@@ -32,6 +32,13 @@ message Request{
     string email = 11;
 }
 
+message RequestFilter{
+    repeated uint32 duration = 1;
+    repeated uint32 status = 2;
+    uint32 min_price = 3;
+    uint32 max_price = 4;
+}
+
 message GetOneRequestInput{
     string id = 1;
 }
@@ -44,6 +51,7 @@ message GetRequestsByUserInput{
     string user_id = 1;
     int32 limit = 2;
     int32 page = 3;
+    RequestFilter filter = 4;
 }
 
 message GetRequestsByUserResponse{
