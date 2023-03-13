@@ -30,6 +30,8 @@ message Request{
     int32 duration = 9;
     string tel = 10;
     string email = 11;
+    string customer_name = 12;
+    string freelance_name = 13;
 }
 
 message RequestFilter{
