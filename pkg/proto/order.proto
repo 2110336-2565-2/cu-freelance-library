@@ -25,6 +25,7 @@ message Order{
     int32 duration = 8;
     string tel = 9; 
     string email = 10;
+    string due_date = 11;
 }
 
 message OrderFilter{

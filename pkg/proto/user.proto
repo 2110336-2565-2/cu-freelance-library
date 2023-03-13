@@ -8,6 +8,7 @@ service UserService {
   rpc FindOneLocalUser(FindOneLocalUserRequest) returns (FindOneLocalUserResponse){}
   rpc FindOneUserStudent(FindOneUserStudentRequest) returns (FindOneUserStudentResponse){}
   rpc Update(UpdateUserRequest) returns (UpdateUserResponse){}
+  rpc FindUsersFromList(FindUsersFromListRequest) returns (FindUsersFromListResponse){}
 }
 
 message LocalUser{
@@ -68,4 +69,20 @@ message UpdateUserRequest{
 
 message UpdateUserResponse{
   bool is_success = 1;
+}
+
+// find user from list of id
+
+message UserResponse {
+  string id = 1;
+  string display_name = 2;
+}
+
+message FindUsersFromListRequest {
+  repeated string local_users = 1;
+  repeated string student_users = 2;
+}
+
+message FindUsersFromListResponse {
+  repeated UserResponse users_response = 1;
 }
