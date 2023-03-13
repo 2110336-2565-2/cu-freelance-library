@@ -79,8 +79,7 @@ message UserResponse {
 }
 
 message FindUsersFromListRequest {
-  repeated string local_users = 1;
-  repeated string student_users = 2;
+  repeated string user_ids = 1;
 }
 
 message FindUsersFromListResponse {
