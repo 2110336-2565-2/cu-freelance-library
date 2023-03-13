@@ -26,6 +26,8 @@ message Order{
     string tel = 9; 
     string email = 10;
     string due_date = 11;
+    string freelance_name = 12;
+    string customer_name = 13;
 }
 
 message OrderFilter{
