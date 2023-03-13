@@ -17,8 +17,9 @@ service OrderTemplateService {
 
 message OrderTemplateFilter{
     repeated uint32 duration = 1;
-    uint32 min_price = 3;
-    uint32 max_price = 4;
+    uint32 min_price = 2;
+    uint32 max_price = 3;
+    uint32 sort = 4;
 }
 
 message OrderTemplate{

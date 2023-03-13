@@ -5,8 +5,8 @@ go 1.19
 require (
 	github.com/getsentry/sentry-go v0.17.0
 	github.com/go-redis/redis/v8 v8.11.5
+	github.com/gocql/gocql v1.3.1
 	github.com/google/uuid v1.3.0
-	github.com/mitchellh/mapstructure v1.5.0
 	github.com/opensearch-project/opensearch-go/v2 v2.2.0
 	github.com/pemistahl/lingua-go v1.3.3
 	github.com/pkg/errors v0.9.1
@@ -30,7 +30,6 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/gocql/gocql v1.3.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/hailocab/go-hostpool v0.0.0-20160125115350-e80d13ce29ed // indirect
