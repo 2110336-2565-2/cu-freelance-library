@@ -44,6 +44,7 @@ message RequestFilter{
 
 message GetOneRequestInput{
     string id = 1;
+    string user_id = 2;
 }
 
 message GetOneRequestResponse{
@@ -111,6 +112,7 @@ message UpdateRequestInput{
     int32 duration = 5;
     string tel = 6;
     string email = 7;
+    string customer_id = 8;
 }
 
 message UpdateRequestResponse{
@@ -120,6 +122,7 @@ message UpdateRequestResponse{
 
 message DeleteRequestInput{
     string id = 1;
+    string user_id = 2;
 }
 
 message DeleteRequestResponse{
@@ -129,6 +132,7 @@ message DeleteRequestResponse{
 message AcceptRequestInput{
     string id = 1;
     string orderTemplate_id = 2;
+    string user_id = 3;
 }
 
 message AcceptRequestResponse{
@@ -137,6 +141,7 @@ message AcceptRequestResponse{
 
 message RejectRequestInput{
     string id = 1;
+    string user_id = 2;
 }
 
 message RejectRequestResponse{

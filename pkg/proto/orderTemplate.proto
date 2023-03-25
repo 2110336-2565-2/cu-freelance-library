@@ -48,6 +48,7 @@ message OrderTemplatePaginateResponse{
 
 message GetOrderTemplateByIDRequest{
     string id = 1;
+    string user_id = 2;
 }
 
 message GetOrderTemplateByIDResponse{
@@ -77,6 +78,7 @@ message UpdateOrderTemplateRequest{
     int32 duration = 5;
     string tel = 6;
     string email = 7;
+    string user_id = 8;
 }
 
 message UpdateOrderTemplateResponse{
@@ -86,6 +88,7 @@ message UpdateOrderTemplateResponse{
 
 message DeleteOrderTemplateRequest{
     string id = 1;
+    string user_id = 2;
 }
 
 message DeleteOrderTemplateResponse{

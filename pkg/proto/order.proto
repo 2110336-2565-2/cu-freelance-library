@@ -52,6 +52,7 @@ message OrderPaginateResponse{
 
 message GetOrderByIDRequest{
     string id = 1;
+    string user_id = 2;
 }
 
 message GetOrderByIDResponse{
@@ -83,6 +84,7 @@ message UpdateOrderRequest{
     int32 duration = 6;
     string tel = 7;
     string email = 8;
+    string user_id = 9;
 }
 
 message UpdateOrderResponse{
@@ -92,6 +94,7 @@ message UpdateOrderResponse{
 
 message DeleteOrderRequest{
     string id = 1;
+    string user_id = 2;
 }
 
 message DeleteOrderResponse{
