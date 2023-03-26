@@ -6,10 +6,13 @@ option go_package = "pkg/pb;pb";
 
 service FileService {
     rpc UploadAvatarImage(UploadAvatarImageRequest) returns (UploadAvatarImageResponse);
-    rpc UploadPortfolioImage(UploadPortfolioImageRequest) returns (UploadPortfolioImageResponse);
     rpc GetUserAvatar(GetUserAvatarRequest) returns (UserAvatarResponse);
+    rpc DeleteAvater(DeleteAvaterRequest) returns (DeleteAvaterResponse);
+    
+    rpc UploadPortfolioImage(UploadPortfolioImageRequest) returns (UploadPortfolioImageResponse);
     rpc GetPortThumbnail(GetPortThumbnailRequest) returns (PortThumbnailResponse);
     rpc GetAllPortImage(GetAllPortImageRequest) returns (AllPortImageResponse);
+    rpc DeletePortfolioImage(DeletePortfolioImageRequest) returns (DeletePortfolioImageResponse);
 }
 
 message File{
@@ -49,13 +52,25 @@ message UserAvatarResponse{
     string key = 2;
 }
 
+message DeleteAvaterRequest{
+    string userId = 1;
+}
+
+message DeleteAvaterResponse{
+    bool is_success = 1;
+}
+
+message Thumbnail{
+    string portId = 1;
+    string key = 2;
+}
+
 message GetPortThumbnailRequest{
     repeated string portIds = 1;
 }
 
 message PortThumbnailResponse{
-    string portId = 2;
-    string key = 3;
+    repeated Thumbnail thumbnails = 1;
 }
 
 message GetAllPortImageRequest{
@@ -67,4 +82,14 @@ message AllPortImageResponse{
     string userId = 1;
     string portId = 2;
     repeated string keys = 3;
+}
+
+message DeletePortfolioImageRequest{
+    string userId = 1;
+    string portId = 2;
+    string key = 3;
+}
+
+message DeletePortfolioImageResponse{
+    bool is_success = 1;
 }
