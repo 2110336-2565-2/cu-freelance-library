@@ -25,7 +25,7 @@ message UploadAvatarImageRequest{
 
 message UploadAvatarImageResponse{
     string userId = 1;
-    string url = 2;
+    string key = 2;
 }
 
 message UploadPortfolioImageRequest{
@@ -37,7 +37,7 @@ message UploadPortfolioImageRequest{
 message UploadPortfolioImageResponse{
     string userId = 1;
     string portId = 2;
-    string url = 3; 
+    string key = 3; 
 }
 
 message GetUserAvatarRequest{
@@ -46,18 +46,16 @@ message GetUserAvatarRequest{
 
 message UserAvatarResponse{
     string userId = 1;
-    string url = 2;
+    string key = 2;
 }
 
 message GetPortThumbnailRequest{
-    string userId = 1;
-    string portId = 2;
+    repeated string portIds = 1;
 }
 
 message PortThumbnailResponse{
-    string userId = 1;
     string portId = 2;
-    string url = 3;
+    string key = 3;
 }
 
 message GetAllPortImageRequest{
@@ -65,13 +63,8 @@ message GetAllPortImageRequest{
     string portId = 2;
 }
 
-message PortImages{
-    string imageId = 1;
-    string url = 2;
-}
-
 message AllPortImageResponse{
     string userId = 1;
     string portId = 2;
-    repeated PortImages images = 3;
+    repeated string keys = 3;
 }
