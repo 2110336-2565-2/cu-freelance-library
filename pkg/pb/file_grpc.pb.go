@@ -29,6 +29,7 @@ type FileServiceClient interface {
 	GetPortThumbnail(ctx context.Context, in *GetPortThumbnailRequest, opts ...grpc.CallOption) (*PortThumbnailResponse, error)
 	GetAllPortImage(ctx context.Context, in *GetAllPortImageRequest, opts ...grpc.CallOption) (*AllPortImageResponse, error)
 	DeletePortfolioImage(ctx context.Context, in *DeletePortfolioImageRequest, opts ...grpc.CallOption) (*DeletePortfolioImageResponse, error)
+	SelectThumbnail(ctx context.Context, in *SelectThumbnailRequest, opts ...grpc.CallOption) (*SelectThumbnailResponse, error)
 }
 
 type fileServiceClient struct {
@@ -102,6 +103,15 @@ func (c *fileServiceClient) DeletePortfolioImage(ctx context.Context, in *Delete
 	return out, nil
 }
 
+func (c *fileServiceClient) SelectThumbnail(ctx context.Context, in *SelectThumbnailRequest, opts ...grpc.CallOption) (*SelectThumbnailResponse, error) {
+	out := new(SelectThumbnailResponse)
+	err := c.cc.Invoke(ctx, "/file.FileService/SelectThumbnail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FileServiceServer is the server API for FileService service.
 // All implementations should embed UnimplementedFileServiceServer
 // for forward compatibility
@@ -113,6 +123,7 @@ type FileServiceServer interface {
 	GetPortThumbnail(context.Context, *GetPortThumbnailRequest) (*PortThumbnailResponse, error)
 	GetAllPortImage(context.Context, *GetAllPortImageRequest) (*AllPortImageResponse, error)
 	DeletePortfolioImage(context.Context, *DeletePortfolioImageRequest) (*DeletePortfolioImageResponse, error)
+	SelectThumbnail(context.Context, *SelectThumbnailRequest) (*SelectThumbnailResponse, error)
 }
 
 // UnimplementedFileServiceServer should be embedded to have forward compatible implementations.
@@ -139,6 +150,9 @@ func (UnimplementedFileServiceServer) GetAllPortImage(context.Context, *GetAllPo
 }
 func (UnimplementedFileServiceServer) DeletePortfolioImage(context.Context, *DeletePortfolioImageRequest) (*DeletePortfolioImageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePortfolioImage not implemented")
+}
+func (UnimplementedFileServiceServer) SelectThumbnail(context.Context, *SelectThumbnailRequest) (*SelectThumbnailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SelectThumbnail not implemented")
 }
 
 // UnsafeFileServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -278,6 +292,24 @@ func _FileService_DeletePortfolioImage_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FileService_SelectThumbnail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SelectThumbnailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FileServiceServer).SelectThumbnail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/file.FileService/SelectThumbnail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServiceServer).SelectThumbnail(ctx, req.(*SelectThumbnailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FileService_ServiceDesc is the grpc.ServiceDesc for FileService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -312,6 +344,10 @@ var FileService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeletePortfolioImage",
 			Handler:    _FileService_DeletePortfolioImage_Handler,
+		},
+		{
+			MethodName: "SelectThumbnail",
+			Handler:    _FileService_SelectThumbnail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

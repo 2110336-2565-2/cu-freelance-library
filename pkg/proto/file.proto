@@ -13,6 +13,8 @@ service FileService {
     rpc GetPortThumbnail(GetPortThumbnailRequest) returns (PortThumbnailResponse);
     rpc GetAllPortImage(GetAllPortImageRequest) returns (AllPortImageResponse);
     rpc DeletePortfolioImage(DeletePortfolioImageRequest) returns (DeletePortfolioImageResponse);
+
+    rpc SelectThumbnail(SelectThumbnailRequest) returns (SelectThumbnailResponse);
 }
 
 message File{
@@ -91,5 +93,15 @@ message DeletePortfolioImageRequest{
 }
 
 message DeletePortfolioImageResponse{
+    bool is_success = 1;
+}
+
+message SelectThumbnailRequest{
+    string userId = 1;
+    string portId = 2;
+    string key = 3;
+}
+
+message SelectThumbnailResponse{
     bool is_success = 1;
 }
