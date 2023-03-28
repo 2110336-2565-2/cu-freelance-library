@@ -12,6 +12,7 @@ service OrderService {
     rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
     rpc UpdateOrderByID(UpdateOrderRequest) returns (UpdateOrderResponse);
     rpc DeleteOrderByID(DeleteOrderRequest) returns (DeleteOrderResponse);
+    rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
 }
 
 message Order{
@@ -101,3 +102,11 @@ message DeleteOrderResponse{
     bool is_success = 1;
 }
 
+message CancelOrderRequest{
+    string id = 1;
+    string user_id = 2;
+}
+
+message CancelOrderResponse{
+    bool is_success = 1;
+}
