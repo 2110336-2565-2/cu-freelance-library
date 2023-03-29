@@ -392,8 +392,8 @@ func calMetadata(meta *PaginationMetadata, result *map[string]interface{}) {
 	meta.TotalPage = totalItemValue / meta.ItemsPerPage
 	meta.ItemCount = len(hits["hits"].([]interface{}))
 
-	// Add total item by 1 if cannot divisible by 10
-	if totalItemValue%10 != 0 {
+	// Add total item by 1 if cannot divisible by item per page
+	if totalItemValue%meta.ItemsPerPage != 0 {
 		meta.TotalPage++
 	}
 }
