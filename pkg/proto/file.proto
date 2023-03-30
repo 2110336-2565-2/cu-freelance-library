@@ -46,12 +46,16 @@ message UploadPortfolioImageResponse{
 }
 
 message GetUserAvatarRequest{
+    repeated string userIds = 1;
+}
+
+message Avatar{
     string userId = 1;
+    string url = 2;
 }
 
 message UserAvatarResponse{
-    string userId = 1;
-    string url = 2;
+    repeated Avatar avatars = 1;
 }
 
 message DeleteAvaterRequest{
