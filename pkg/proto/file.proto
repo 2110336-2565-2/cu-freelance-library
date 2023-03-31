@@ -15,6 +15,10 @@ service FileService {
     rpc DeletePortfolioImage(DeletePortfolioImageRequest) returns (DeletePortfolioImageResponse);
 
     rpc SelectThumbnail(SelectThumbnailRequest) returns (SelectThumbnailResponse);
+
+    rpc UploadSubmission(UploadSubmissionRequest) returns (UploadSubmissionResponse);
+    rpc GetSubmission(GetSubmissionRequest) returns (GetSubmissionResponse);
+    rpc DeleteSubmission(DeleteSubmissionRequest) returns (DeleteSubmissionResponse);
 }
 
 message File{
@@ -107,5 +111,48 @@ message SelectThumbnailRequest{
 }
 
 message SelectThumbnailResponse{
+    bool is_success = 1;
+}
+
+message UploadSubmissionRequest{
+    string userId = 1;
+    string orderId = 2;
+    string submissionId = 3;
+    File file = 4;
+}
+
+message UploadSubmissionResponse{
+    string userId = 1;
+    string orderId = 2;
+    string submissionId = 3;
+    string url = 4;
+}
+
+message Submission{
+    string type = 1;
+    string url = 2;
+}
+
+message GetSubmissionRequest{
+    string userId = 1;
+    string orderId = 2;
+    string submissionId = 3;
+}
+
+message GetSubmissionResponse{
+    string userId = 1;
+    string orderId = 2;
+    string submissionId = 3;
+    repeated Submission submission = 4;
+}
+
+message DeleteSubmissionRequest{
+    string userId = 1;
+    string orderId = 2;
+    string submissionId = 3;
+    string key = 4;
+}
+
+message DeleteSubmissionResponse{
     bool is_success = 1;
 }

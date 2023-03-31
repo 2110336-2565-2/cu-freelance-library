@@ -5,6 +5,7 @@ package order;
 option go_package = "pkg/pb;pb";
 
 import "common.proto";
+import "file.proto";
 
 service OrderService {
     rpc GetOrderPaginate(GetOrderPaginateRequest) returns (OrderPaginateResponse);
@@ -58,6 +59,7 @@ message GetOrderByIDRequest{
 
 message GetOrderByIDResponse{
     Order order = 1;
+    repeated file.Submission submission = 2;
 }
 
 message CreateOrderRequest{
