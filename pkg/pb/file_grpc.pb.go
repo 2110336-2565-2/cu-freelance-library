@@ -29,10 +29,12 @@ type FileServiceClient interface {
 	GetPortThumbnail(ctx context.Context, in *GetPortThumbnailRequest, opts ...grpc.CallOption) (*PortThumbnailResponse, error)
 	GetAllPortImage(ctx context.Context, in *GetAllPortImageRequest, opts ...grpc.CallOption) (*AllPortImageResponse, error)
 	DeletePortfolioImage(ctx context.Context, in *DeletePortfolioImageRequest, opts ...grpc.CallOption) (*DeletePortfolioImageResponse, error)
+	DeletePortfolioFileService(ctx context.Context, in *DeletePortfolioFileServiceRequest, opts ...grpc.CallOption) (*DeletePortfolioFileServiceResponse, error)
 	SelectThumbnail(ctx context.Context, in *SelectThumbnailRequest, opts ...grpc.CallOption) (*SelectThumbnailResponse, error)
 	UploadSubmission(ctx context.Context, in *UploadSubmissionRequest, opts ...grpc.CallOption) (*UploadSubmissionResponse, error)
 	GetSubmission(ctx context.Context, in *GetSubmissionRequest, opts ...grpc.CallOption) (*GetSubmissionResponse, error)
-	DeleteSubmission(ctx context.Context, in *DeleteSubmissionRequest, opts ...grpc.CallOption) (*DeleteSubmissionResponse, error)
+	CreateSubmission(ctx context.Context, in *CreateSubmissionRequest, opts ...grpc.CallOption) (*CreateSubmissionResponse, error)
+	DeleteSubmissionFile(ctx context.Context, in *DeleteSubmissionFileRequest, opts ...grpc.CallOption) (*DeleteSubmissionFileResponse, error)
 }
 
 type fileServiceClient struct {
@@ -106,6 +108,15 @@ func (c *fileServiceClient) DeletePortfolioImage(ctx context.Context, in *Delete
 	return out, nil
 }
 
+func (c *fileServiceClient) DeletePortfolioFileService(ctx context.Context, in *DeletePortfolioFileServiceRequest, opts ...grpc.CallOption) (*DeletePortfolioFileServiceResponse, error) {
+	out := new(DeletePortfolioFileServiceResponse)
+	err := c.cc.Invoke(ctx, "/file.FileService/DeletePortfolioFileService", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *fileServiceClient) SelectThumbnail(ctx context.Context, in *SelectThumbnailRequest, opts ...grpc.CallOption) (*SelectThumbnailResponse, error) {
 	out := new(SelectThumbnailResponse)
 	err := c.cc.Invoke(ctx, "/file.FileService/SelectThumbnail", in, out, opts...)
@@ -133,9 +144,18 @@ func (c *fileServiceClient) GetSubmission(ctx context.Context, in *GetSubmission
 	return out, nil
 }
 
-func (c *fileServiceClient) DeleteSubmission(ctx context.Context, in *DeleteSubmissionRequest, opts ...grpc.CallOption) (*DeleteSubmissionResponse, error) {
-	out := new(DeleteSubmissionResponse)
-	err := c.cc.Invoke(ctx, "/file.FileService/DeleteSubmission", in, out, opts...)
+func (c *fileServiceClient) CreateSubmission(ctx context.Context, in *CreateSubmissionRequest, opts ...grpc.CallOption) (*CreateSubmissionResponse, error) {
+	out := new(CreateSubmissionResponse)
+	err := c.cc.Invoke(ctx, "/file.FileService/CreateSubmission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fileServiceClient) DeleteSubmissionFile(ctx context.Context, in *DeleteSubmissionFileRequest, opts ...grpc.CallOption) (*DeleteSubmissionFileResponse, error) {
+	out := new(DeleteSubmissionFileResponse)
+	err := c.cc.Invoke(ctx, "/file.FileService/DeleteSubmissionFile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -153,10 +173,12 @@ type FileServiceServer interface {
 	GetPortThumbnail(context.Context, *GetPortThumbnailRequest) (*PortThumbnailResponse, error)
 	GetAllPortImage(context.Context, *GetAllPortImageRequest) (*AllPortImageResponse, error)
 	DeletePortfolioImage(context.Context, *DeletePortfolioImageRequest) (*DeletePortfolioImageResponse, error)
+	DeletePortfolioFileService(context.Context, *DeletePortfolioFileServiceRequest) (*DeletePortfolioFileServiceResponse, error)
 	SelectThumbnail(context.Context, *SelectThumbnailRequest) (*SelectThumbnailResponse, error)
 	UploadSubmission(context.Context, *UploadSubmissionRequest) (*UploadSubmissionResponse, error)
 	GetSubmission(context.Context, *GetSubmissionRequest) (*GetSubmissionResponse, error)
-	DeleteSubmission(context.Context, *DeleteSubmissionRequest) (*DeleteSubmissionResponse, error)
+	CreateSubmission(context.Context, *CreateSubmissionRequest) (*CreateSubmissionResponse, error)
+	DeleteSubmissionFile(context.Context, *DeleteSubmissionFileRequest) (*DeleteSubmissionFileResponse, error)
 }
 
 // UnimplementedFileServiceServer should be embedded to have forward compatible implementations.
@@ -184,6 +206,9 @@ func (UnimplementedFileServiceServer) GetAllPortImage(context.Context, *GetAllPo
 func (UnimplementedFileServiceServer) DeletePortfolioImage(context.Context, *DeletePortfolioImageRequest) (*DeletePortfolioImageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePortfolioImage not implemented")
 }
+func (UnimplementedFileServiceServer) DeletePortfolioFileService(context.Context, *DeletePortfolioFileServiceRequest) (*DeletePortfolioFileServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePortfolioFileService not implemented")
+}
 func (UnimplementedFileServiceServer) SelectThumbnail(context.Context, *SelectThumbnailRequest) (*SelectThumbnailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SelectThumbnail not implemented")
 }
@@ -193,8 +218,11 @@ func (UnimplementedFileServiceServer) UploadSubmission(context.Context, *UploadS
 func (UnimplementedFileServiceServer) GetSubmission(context.Context, *GetSubmissionRequest) (*GetSubmissionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSubmission not implemented")
 }
-func (UnimplementedFileServiceServer) DeleteSubmission(context.Context, *DeleteSubmissionRequest) (*DeleteSubmissionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteSubmission not implemented")
+func (UnimplementedFileServiceServer) CreateSubmission(context.Context, *CreateSubmissionRequest) (*CreateSubmissionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSubmission not implemented")
+}
+func (UnimplementedFileServiceServer) DeleteSubmissionFile(context.Context, *DeleteSubmissionFileRequest) (*DeleteSubmissionFileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSubmissionFile not implemented")
 }
 
 // UnsafeFileServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -334,6 +362,24 @@ func _FileService_DeletePortfolioImage_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FileService_DeletePortfolioFileService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePortfolioFileServiceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FileServiceServer).DeletePortfolioFileService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/file.FileService/DeletePortfolioFileService",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServiceServer).DeletePortfolioFileService(ctx, req.(*DeletePortfolioFileServiceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _FileService_SelectThumbnail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SelectThumbnailRequest)
 	if err := dec(in); err != nil {
@@ -388,20 +434,38 @@ func _FileService_GetSubmission_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_DeleteSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteSubmissionRequest)
+func _FileService_CreateSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSubmissionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).DeleteSubmission(ctx, in)
+		return srv.(FileServiceServer).CreateSubmission(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/file.FileService/DeleteSubmission",
+		FullMethod: "/file.FileService/CreateSubmission",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).DeleteSubmission(ctx, req.(*DeleteSubmissionRequest))
+		return srv.(FileServiceServer).CreateSubmission(ctx, req.(*CreateSubmissionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FileService_DeleteSubmissionFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSubmissionFileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FileServiceServer).DeleteSubmissionFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/file.FileService/DeleteSubmissionFile",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServiceServer).DeleteSubmissionFile(ctx, req.(*DeleteSubmissionFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -442,6 +506,10 @@ var FileService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _FileService_DeletePortfolioImage_Handler,
 		},
 		{
+			MethodName: "DeletePortfolioFileService",
+			Handler:    _FileService_DeletePortfolioFileService_Handler,
+		},
+		{
 			MethodName: "SelectThumbnail",
 			Handler:    _FileService_SelectThumbnail_Handler,
 		},
@@ -454,8 +522,12 @@ var FileService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _FileService_GetSubmission_Handler,
 		},
 		{
-			MethodName: "DeleteSubmission",
-			Handler:    _FileService_DeleteSubmission_Handler,
+			MethodName: "CreateSubmission",
+			Handler:    _FileService_CreateSubmission_Handler,
+		},
+		{
+			MethodName: "DeleteSubmissionFile",
+			Handler:    _FileService_DeleteSubmissionFile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

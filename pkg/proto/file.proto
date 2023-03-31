@@ -13,12 +13,15 @@ service FileService {
     rpc GetPortThumbnail(GetPortThumbnailRequest) returns (PortThumbnailResponse);
     rpc GetAllPortImage(GetAllPortImageRequest) returns (AllPortImageResponse);
     rpc DeletePortfolioImage(DeletePortfolioImageRequest) returns (DeletePortfolioImageResponse);
+    rpc DeletePortfolioFileService(DeletePortfolioFileServiceRequest) returns (DeletePortfolioFileServiceResponse);
 
     rpc SelectThumbnail(SelectThumbnailRequest) returns (SelectThumbnailResponse);
 
     rpc UploadSubmission(UploadSubmissionRequest) returns (UploadSubmissionResponse);
     rpc GetSubmission(GetSubmissionRequest) returns (GetSubmissionResponse);
-    rpc DeleteSubmission(DeleteSubmissionRequest) returns (DeleteSubmissionResponse);
+    rpc CreateSubmission(CreateSubmissionRequest) returns (CreateSubmissionResponse);
+    rpc DeleteSubmissionFile(DeleteSubmissionFileRequest) returns (DeleteSubmissionFileResponse);
+
 }
 
 message File{
@@ -104,6 +107,15 @@ message DeletePortfolioImageResponse{
     bool is_success = 1;
 }
 
+message DeletePortfolioFileServiceRequest{
+    string userId = 1;
+    string portId = 2;
+}
+
+message DeletePortfolioFileServiceResponse{
+    bool is_success = 1;
+}
+
 message SelectThumbnailRequest{
     string userId = 1;
     string portId = 2;
@@ -122,9 +134,6 @@ message UploadSubmissionRequest{
 }
 
 message UploadSubmissionResponse{
-    string userId = 1;
-    string orderId = 2;
-    string submissionId = 3;
     string url = 4;
 }
 
@@ -140,19 +149,27 @@ message GetSubmissionRequest{
 }
 
 message GetSubmissionResponse{
-    string userId = 1;
-    string orderId = 2;
-    string submissionId = 3;
     repeated Submission submission = 4;
 }
 
-message DeleteSubmissionRequest{
+message CreateSubmissionRequest{
+    string customer_id = 1;
+    string freelance_id = 2;
+    string orderId = 3;
+    string submissionId = 4;
+}
+
+message CreateSubmissionResponse{
+    bool is_success = 1;
+}
+
+message DeleteSubmissionFileRequest{
     string userId = 1;
     string orderId = 2;
     string submissionId = 3;
     string key = 4;
 }
 
-message DeleteSubmissionResponse{
+message DeleteSubmissionFileResponse{
     bool is_success = 1;
 }
