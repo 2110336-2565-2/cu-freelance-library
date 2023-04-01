@@ -87,13 +87,12 @@ message PortThumbnailResponse{
 }
 
 message GetAllPortImageRequest{
-    string userId = 1;
     string portId = 2;
 }
 
 message AllPortImageResponse{
-    string userId = 1;
-    string portId = 2;
+    string portId = 1;
+    int32 totalImages = 2;
     repeated string urls = 3;
 }
 
@@ -149,7 +148,8 @@ message GetSubmissionRequest{
 }
 
 message GetSubmissionResponse{
-    repeated Submission submission = 4;
+    int32 totalItems = 1;
+    repeated Submission submission = 2;
 }
 
 message CreateSubmissionRequest{
