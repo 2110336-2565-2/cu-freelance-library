@@ -28,6 +28,7 @@ message File{
     int32 size = 1;
     string fileType = 2;
     bytes file = 3;
+    string fileName = 4;
 }
 
 message UploadAvatarImageRequest{
@@ -140,12 +141,14 @@ message Submission{
     string type = 1;
     string url = 2;
     string createdAt = 3;
+    string fileName = 4;
 }
 
 message GetSubmissionRequest{
-    string userId = 1;
-    string orderId = 2;
-    string submissionId = 3;
+    string customer_id = 1;
+    string freelance_id = 2;
+    string orderId = 3;
+    string submissionId = 4;
 }
 
 message GetSubmissionResponse{
