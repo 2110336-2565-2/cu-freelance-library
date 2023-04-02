@@ -57,9 +57,14 @@ message GetOrderByIDRequest{
     string user_id = 2;
 }
 
+message OrderSubmission{
+    int32 totalItems = 1;
+    repeated file.Submission submissions = 2;
+}
+
 message GetOrderByIDResponse{
     Order order = 1;
-    repeated file.Submission submission = 2;
+    OrderSubmission submission = 2;
 }
 
 message CreateOrderRequest{

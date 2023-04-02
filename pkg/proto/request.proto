@@ -131,7 +131,6 @@ message DeleteRequestResponse{
 
 message AcceptRequestInput{
     string id = 1;
-    string orderTemplate_id = 2;
     string user_id = 3;
 }
 

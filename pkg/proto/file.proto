@@ -139,6 +139,7 @@ message UploadSubmissionResponse{
 message Submission{
     string type = 1;
     string url = 2;
+    string createdAt = 3;
 }
 
 message GetSubmissionRequest{
