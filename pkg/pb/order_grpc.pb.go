@@ -28,6 +28,9 @@ type OrderServiceClient interface {
 	UpdateOrderByID(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*UpdateOrderResponse, error)
 	DeleteOrderByID(ctx context.Context, in *DeleteOrderRequest, opts ...grpc.CallOption) (*DeleteOrderResponse, error)
 	CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*CancelOrderResponse, error)
+	AcceptOrder(ctx context.Context, in *AcceptOrderRequest, opts ...grpc.CallOption) (*AcceptOrderResponse, error)
+	UpdateSubmission(ctx context.Context, in *UpdateSubmissionRequest, opts ...grpc.CallOption) (*UpdateSubmissionResponse, error)
+	ValidateOrder(ctx context.Context, in *ValidateOrderRequest, opts ...grpc.CallOption) (*ValidateOrderResponse, error)
 }
 
 type orderServiceClient struct {
@@ -92,6 +95,33 @@ func (c *orderServiceClient) CancelOrder(ctx context.Context, in *CancelOrderReq
 	return out, nil
 }
 
+func (c *orderServiceClient) AcceptOrder(ctx context.Context, in *AcceptOrderRequest, opts ...grpc.CallOption) (*AcceptOrderResponse, error) {
+	out := new(AcceptOrderResponse)
+	err := c.cc.Invoke(ctx, "/order.OrderService/AcceptOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) UpdateSubmission(ctx context.Context, in *UpdateSubmissionRequest, opts ...grpc.CallOption) (*UpdateSubmissionResponse, error) {
+	out := new(UpdateSubmissionResponse)
+	err := c.cc.Invoke(ctx, "/order.OrderService/UpdateSubmission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) ValidateOrder(ctx context.Context, in *ValidateOrderRequest, opts ...grpc.CallOption) (*ValidateOrderResponse, error) {
+	out := new(ValidateOrderResponse)
+	err := c.cc.Invoke(ctx, "/order.OrderService/ValidateOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServiceServer is the server API for OrderService service.
 // All implementations should embed UnimplementedOrderServiceServer
 // for forward compatibility
@@ -102,6 +132,9 @@ type OrderServiceServer interface {
 	UpdateOrderByID(context.Context, *UpdateOrderRequest) (*UpdateOrderResponse, error)
 	DeleteOrderByID(context.Context, *DeleteOrderRequest) (*DeleteOrderResponse, error)
 	CancelOrder(context.Context, *CancelOrderRequest) (*CancelOrderResponse, error)
+	AcceptOrder(context.Context, *AcceptOrderRequest) (*AcceptOrderResponse, error)
+	UpdateSubmission(context.Context, *UpdateSubmissionRequest) (*UpdateSubmissionResponse, error)
+	ValidateOrder(context.Context, *ValidateOrderRequest) (*ValidateOrderResponse, error)
 }
 
 // UnimplementedOrderServiceServer should be embedded to have forward compatible implementations.
@@ -125,6 +158,15 @@ func (UnimplementedOrderServiceServer) DeleteOrderByID(context.Context, *DeleteO
 }
 func (UnimplementedOrderServiceServer) CancelOrder(context.Context, *CancelOrderRequest) (*CancelOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
+}
+func (UnimplementedOrderServiceServer) AcceptOrder(context.Context, *AcceptOrderRequest) (*AcceptOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AcceptOrder not implemented")
+}
+func (UnimplementedOrderServiceServer) UpdateSubmission(context.Context, *UpdateSubmissionRequest) (*UpdateSubmissionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubmission not implemented")
+}
+func (UnimplementedOrderServiceServer) ValidateOrder(context.Context, *ValidateOrderRequest) (*ValidateOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateOrder not implemented")
 }
 
 // UnsafeOrderServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -246,6 +288,60 @@ func _OrderService_CancelOrder_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderService_AcceptOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AcceptOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).AcceptOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/order.OrderService/AcceptOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).AcceptOrder(ctx, req.(*AcceptOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_UpdateSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSubmissionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).UpdateSubmission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/order.OrderService/UpdateSubmission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).UpdateSubmission(ctx, req.(*UpdateSubmissionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_ValidateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).ValidateOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/order.OrderService/ValidateOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).ValidateOrder(ctx, req.(*ValidateOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -276,6 +372,18 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelOrder",
 			Handler:    _OrderService_CancelOrder_Handler,
+		},
+		{
+			MethodName: "AcceptOrder",
+			Handler:    _OrderService_AcceptOrder_Handler,
+		},
+		{
+			MethodName: "UpdateSubmission",
+			Handler:    _OrderService_UpdateSubmission_Handler,
+		},
+		{
+			MethodName: "ValidateOrder",
+			Handler:    _OrderService_ValidateOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

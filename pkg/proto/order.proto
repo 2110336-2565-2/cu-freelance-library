@@ -14,6 +14,11 @@ service OrderService {
     rpc UpdateOrderByID(UpdateOrderRequest) returns (UpdateOrderResponse);
     rpc DeleteOrderByID(DeleteOrderRequest) returns (DeleteOrderResponse);
     rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+    rpc AcceptOrder(AcceptOrderRequest) returns (AcceptOrderResponse);
+
+    rpc UpdateSubmission(UpdateSubmissionRequest) returns (UpdateSubmissionResponse);
+
+    rpc ValidateOrder(ValidateOrderRequest) returns (ValidateOrderResponse);
 }
 
 message Order{
@@ -109,6 +114,15 @@ message DeleteOrderResponse{
     bool is_success = 1;
 }
 
+message AcceptOrderRequest{
+    string id = 1;
+    string user_id = 2;
+}
+
+message AcceptOrderResponse{
+    bool is_success = 1;
+}
+
 message CancelOrderRequest{
     string id = 1;
     string user_id = 2;
@@ -116,4 +130,36 @@ message CancelOrderRequest{
 
 message CancelOrderResponse{
     bool is_success = 1;
+}
+
+message UpdateSubmissionRequest{
+    string id = 1;
+    string orderId = 2;
+    string userId = 3;
+    string description = 4;
+}
+
+message UpdateSubmissionResponse{
+    bool is_success = 1;
+}
+
+// validate order
+// Required
+// - order id
+// Optional
+// - customer id -> 1
+// - freelance id -> 2
+// - submission id -> 4
+// - status -> 8
+message ValidateOrderRequest{
+    string orderId = 1;
+    string customerId = 2;
+    string freelanceId = 3;
+    string submissionId = 4;
+    int32 status = 5;
+    int32 option = 6;
+}
+
+message ValidateOrderResponse{
+    bool isValid = 1;
 }
