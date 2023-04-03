@@ -63,8 +63,10 @@ message GetOrderByIDRequest{
 }
 
 message OrderSubmission{
-    int32 totalItems = 1;
-    repeated file.Submission submissions = 2;
+    string id = 1;
+    string description = 2;
+    int32 totalItems = 3;
+    repeated file.Submission submissions = 4;
 }
 
 message GetOrderByIDResponse{
