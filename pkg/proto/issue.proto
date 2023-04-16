@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package ticket;
+
+option go_package = "pkg/pb;pb";
+
+service TicketService {
+  rpc CreateTicket(CreateTicketRequest) returns (CreateTicketResponse);
+  rpc UpdateTicket(UpdateTicketRequest) returns (UpdateTicketResponse);
+  rpc DeleteTicket(DeleteTicketRequest) returns (DeleteTicketResponse);
+  rpc GetTicket(GetTicketRequest) returns (GetTicketResponse);
+
+}
+
+message TicketDto {
+    string id = 1;
+    string name = 2;
+    string priority = 3;
+    string attrachments = 4;
+    string status = 5;
+    string assignedTo = 6;
+    string contractEmail = 7;
+    string description = 8;
+    string reproduce = 9;
+    string device = 10;
+    string additionalContext = 11;
+    string openedDate = 12;
+    bool duplicates = 13;
+    string bugSource = 14;
+    repeated string associateFeatures = 15;
+    string notificationStatus= 16;
+}
+
+
+message CreateTicketRequest {
+
+  string name = 1;
+  string priority = 2;
+  string attrachments = 3;
+  string status = 4;
+  string assignedTo = 5;
+  string contractEmail = 6;
+  string description = 7;
+  string reproduce = 8;
+  string device = 9;
+  string additionalContext = 10;
+  string openedDate = 11;
+  string bugSource = 12;
+  repeated string associateFeatures = 13;
+}
+
+message CreateTicketResponse {
+  TicketDto ticket =1;
+}
+
+
+message UpdateTicketRequest {
+  TicketDto ticket =1;
+    
+}
+
+message UpdateTicketResponse {
+  TicketDto ticket =1;
+
+}
+
+
+message DeleteTicketRequest {
+  string id = 1;
+}
+
+message DeleteTicketResponse {
+  TicketDto ticket =1;
+
+}
+
+
+message GetTicketRequest{
+  string id = 1;
+}
+
+message GetTicketResponse{
+  TicketDto ticket =1;
+
+}
