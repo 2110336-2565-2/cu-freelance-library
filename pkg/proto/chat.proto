@@ -74,6 +74,10 @@ message DeleteMessageResponse{
 
 // Sync Message
 
-message SyncMessageRequest {}
+message SyncMessageRequest {
+  string sync_token = 1;
+}
 
-message SyncMessageResponse {}
+message SyncMessageResponse {
+  repeated Message message = 1;
+}

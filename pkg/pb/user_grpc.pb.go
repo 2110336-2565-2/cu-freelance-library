@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type UserServiceClient interface {
 	FindOneLocalUser(ctx context.Context, in *FindOneLocalUserRequest, opts ...grpc.CallOption) (*FindOneLocalUserResponse, error)
 	FindOneUserStudent(ctx context.Context, in *FindOneUserStudentRequest, opts ...grpc.CallOption) (*FindOneUserStudentResponse, error)
+	FindOneUserCUFreelance(ctx context.Context, in *FindOneUserCUFreelanceRequest, opts ...grpc.CallOption) (*FindOneUserCUFreelanceResponse, error)
 	Update(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	FindUsersFromList(ctx context.Context, in *FindUsersFromListRequest, opts ...grpc.CallOption) (*FindUsersFromListResponse, error)
 }
@@ -54,6 +55,15 @@ func (c *userServiceClient) FindOneUserStudent(ctx context.Context, in *FindOneU
 	return out, nil
 }
 
+func (c *userServiceClient) FindOneUserCUFreelance(ctx context.Context, in *FindOneUserCUFreelanceRequest, opts ...grpc.CallOption) (*FindOneUserCUFreelanceResponse, error) {
+	out := new(FindOneUserCUFreelanceResponse)
+	err := c.cc.Invoke(ctx, "/user.UserService/FindOneUserCUFreelance", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) Update(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error) {
 	out := new(UpdateUserResponse)
 	err := c.cc.Invoke(ctx, "/user.UserService/Update", in, out, opts...)
@@ -78,6 +88,7 @@ func (c *userServiceClient) FindUsersFromList(ctx context.Context, in *FindUsers
 type UserServiceServer interface {
 	FindOneLocalUser(context.Context, *FindOneLocalUserRequest) (*FindOneLocalUserResponse, error)
 	FindOneUserStudent(context.Context, *FindOneUserStudentRequest) (*FindOneUserStudentResponse, error)
+	FindOneUserCUFreelance(context.Context, *FindOneUserCUFreelanceRequest) (*FindOneUserCUFreelanceResponse, error)
 	Update(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	FindUsersFromList(context.Context, *FindUsersFromListRequest) (*FindUsersFromListResponse, error)
 }
@@ -91,6 +102,9 @@ func (UnimplementedUserServiceServer) FindOneLocalUser(context.Context, *FindOne
 }
 func (UnimplementedUserServiceServer) FindOneUserStudent(context.Context, *FindOneUserStudentRequest) (*FindOneUserStudentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOneUserStudent not implemented")
+}
+func (UnimplementedUserServiceServer) FindOneUserCUFreelance(context.Context, *FindOneUserCUFreelanceRequest) (*FindOneUserCUFreelanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindOneUserCUFreelance not implemented")
 }
 func (UnimplementedUserServiceServer) Update(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
@@ -146,6 +160,24 @@ func _UserService_FindOneUserStudent_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_FindOneUserCUFreelance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindOneUserCUFreelanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FindOneUserCUFreelance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.UserService/FindOneUserCUFreelance",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FindOneUserCUFreelance(ctx, req.(*FindOneUserCUFreelanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateUserRequest)
 	if err := dec(in); err != nil {
@@ -196,6 +228,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindOneUserStudent",
 			Handler:    _UserService_FindOneUserStudent_Handler,
+		},
+		{
+			MethodName: "FindOneUserCUFreelance",
+			Handler:    _UserService_FindOneUserCUFreelance_Handler,
 		},
 		{
 			MethodName: "Update",

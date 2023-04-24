@@ -7,6 +7,7 @@ option go_package = "pkg/pb;pb";
 service UserService {
   rpc FindOneLocalUser(FindOneLocalUserRequest) returns (FindOneLocalUserResponse){}
   rpc FindOneUserStudent(FindOneUserStudentRequest) returns (FindOneUserStudentResponse){}
+  rpc FindOneUserCUFreelance(FindOneUserCUFreelanceRequest) returns (FindOneUserCUFreelanceResponse){}
   rpc Update(UpdateUserRequest) returns (UpdateUserResponse){}
   rpc FindUsersFromList(FindUsersFromListRequest) returns (FindUsersFromListResponse){}
 }
@@ -33,6 +34,30 @@ message UserStudent{
   string faculty = 8;
   string year = 9;
   string display_name = 10;
+}
+
+message UserCUFreelance{
+  string id = 1;
+  string title = 2;
+  string firstname = 3;
+  string lastname = 4;
+  string phone = 5;
+  string email = 6;
+  string display_name = 7;
+  optional string student_id = 8;
+  optional string faculty = 9;
+  optional string year = 10;
+  optional string username = 11;
+}
+
+// CU Freelance User
+
+message FindOneUserCUFreelanceRequest{
+  string id = 1;
+}
+
+message FindOneUserCUFreelanceResponse{
+  UserCUFreelance user = 1;
 }
 
 // Local User
