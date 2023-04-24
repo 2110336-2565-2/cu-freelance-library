@@ -104,14 +104,14 @@ type JaegerConfig struct {
 }
 
 type CassandraConfig struct {
-	Host     string `mapstructure:"host"`
-	User     string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
-	Keyspace string `mapstructure:"keyspace"`
+	Hosts    []string `mapstructure:"hosts"`
+	User     string   `mapstructure:"username"`
+	Password string   `mapstructure:"password"`
+	Keyspace string   `mapstructure:"keyspace"`
 }
 
 func InitCassandraConnection(conf *CassandraConfig) (*gocql.Session, error) {
-	cluster := gocql.NewCluster(conf.Host)
+	cluster := gocql.NewCluster(conf.Hosts...)
 	cluster.Authenticator = gocql.PasswordAuthenticator{
 		Username: conf.User,
 		Password: conf.Password,
