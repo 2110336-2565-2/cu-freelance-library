@@ -9,6 +9,7 @@ import (
 )
 
 var sentryService sentry.Sentry
+var logLevel zapcore.Level
 
 type Logger interface {
 	SetName(name string)
@@ -29,8 +30,20 @@ type logger struct {
 	*zap.Logger
 }
 
+func SetLogLevel(level string) error {
+	l, err := zapcore.ParseLevel(level)
+	if err != nil {
+		return err
+	}
+
+	logLevel = l
+
+	return nil
+}
+
 func NewLogger(serviceName string) Logger {
 	config := zap.NewProductionConfig()
+	config.Level = zap.NewAtomicLevelAt(logLevel)
 	config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339Nano)
 	config.EncoderConfig.TimeKey = "time"
 
